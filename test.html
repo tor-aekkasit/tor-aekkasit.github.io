@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ทดสอบลิงค์ข้อมูลกลับไปยังหน้า Page ข้อมูลบนเว็บ กรมบังคับคดี</title>
+</head>
+<body>
+
+    <h1>ทรัพย์ที่จะขาย ลำดับที่ 17 - 1</h1>
+    <p>กดปุ่มด้านล่างเพื่อดูข้อมูลบนเว็บไซต์ กรมบังคับคดี</p>
+
+    <!-- 
+      This form works because:
+      1. 'accept-charset="TIS-620"' correctly encodes the Thai text.
+      2. The image paths now contain the correct folder name "งานล้ม".
+    -->
+    <form action="https://asset.led.go.th/newbidreg/asset_open.asp" method="POST" accept-charset="TIS-620">
+        
+        <input type="hidden" name="str_bid_num" value="17 - 1">
+        <input type="hidden" name="rai" value="0">
+        <input type="hidden" name="quaterrai" value="1">
+        <input type="hidden" name="wa" value="96.4">
+        <input type="hidden" name="biddate1" value="25680303">
+        <input type="hidden" name="biddate2" value="25680324">
+        <input type="hidden" name="biddate3" value="25680411">
+        <input type="hidden" name="biddate4" value="25680502">
+        <input type="hidden" name="biddate5" value="25680526">
+        <input type="hidden" name="biddate6" value="25680616">
+        <input type="hidden" name="biddate7" value="25680707">
+        <input type="hidden" name="biddate8" value="25680725">
+        
+        <!-- THE FIX: The folder name is changed from "งานพิทักษ์" to "งานล้ม" -->
+        <input type="hidden" name="landpicture" value="Z:\งานล้ม\2567\11\12\21357p.jpg">
+        <input type="hidden" name="map" value="Z:\งานล้ม\2567\11\12\21357m.jpg">
+        <input type="hidden" name="mapjot" value="Z:\งานล้ม\2567\11\12\21357j.jpg">
+
+        <input type="hidden" name="is_extra_pledgb" value="F">
+        <input type="hidden" name="owner_suit_name" value="ทิพยพิมาน หัวหมากน้อย">
+        <input type="hidden" name="occupant" value="ผู้ถือกรรมสิทธิ์">
+        <input type="hidden" name="assettypedesc" value=" ที่ดินพร้อมสิ่งปลูกสร้าง">
+        <input type="hidden" name="AssetTypeID" value="003">
+        <input type="hidden" name="addrno" value="89/4">
+        <input type="hidden" name="tumbol" value="ทุ่งสองห้อง">
+        <input type="hidden" name="ampur" value="พระนครศรี">
+        <input type="hidden" name="city" value="นครศรีธรรมราช">
+        <input type="hidden" name="fbidnum" value="17">
+        <input type="hidden" name="fbidnuml" value="">
+        <input type="hidden" name="fsubbidnum" value="1">
+        <input type="hidden" name="issale" value="0">
+        <input type="hidden" name="law_court_name" value="ศาลแพ่งกลาง">
+        <input type="hidden" name="law_court_id" value="112">
+        <input type="hidden" name="law_suit_no" value="ผ.4270">
+        <input type="hidden" name="law_suit_year" value="2562">
+        <input type="hidden" name="person1" value="จ.กรุงไทย ">
+        <input type="hidden" name="person2" value="น.ส.นันทิพร ชัยวิบูลย์โภคี">
+        <input type="hidden" name="province_name" value="ศาลแพ่ง 2">
+        <input type="hidden" name="province_id" value="021">
+        <input type="hidden" name="auc_asset_gen" value="">
+        <input type="hidden" name="tel" value="028814377 - 8  ">
+        <input type="hidden" name="debtdetail" value="">
+        <input type="hidden" name="eauc" value="0">
+        <input type="hidden" name="remark1" value="">
+        <input type="hidden" name="ReserveFund" value="150000">
+        <input type="hidden" name="ReserveFund1" value="95000">
+        <input type="hidden" name="assetprice1" value="0">
+        <input type="hidden" name="assetprice2" value="0">
+        <input type="hidden" name="assetprice3" value="1899092">
+        <input type="hidden" name="assetprice4" value="0">
+        <input type="hidden" name="assetprice5" value="0">
+        <input type="hidden" name="assetprice6" value="">
+        <input type="hidden" name="assetprice7" value="">
+        <input type="hidden" name="assetprice8" value="">
+        <input type="hidden" name="assetprice9" value="">
+        <input type="hidden" name="ischeck_date" value="25680103">
+        <input type="hidden" name="remark" value="  -">
+        <input type="hidden" name="deedno" value="21357">
+        <input type="hidden" name="deedtumbol" value="ทุ่งสองห้อง">
+        <input type="hidden" name="deedampur" value="พระนครศรี">
+        <input type="hidden" name="deedcity" value="นครศรีธรรมราช">
+        <input type="hidden" name="landtype" value="โฉนดที่ดิน">
+        <input type="hidden" name="landdesc" value="ตามโฉนด">
+        <input type="hidden" name="issale1" value="3">
+        <input type="hidden" name="issale2" value="3">
+        <input type="hidden" name="issale3" value="0">
+        <input type="hidden" name="issale4" value="3">
+        <input type="hidden" name="issale5" value="0">
+        <input type="hidden" name="issale6" value="0">
+        <input type="hidden" name="issale7" value="0">
+        <input type="hidden" name="issale8" value="0">
+        <input type="hidden" name="ownername" value="น.ส.นันทิพร ชัยวิบูลย์โภคี">
+        <input type="hidden" name="saletypename" value="ปลอดภาระผูกพัน">
+        <input type="hidden" name="sale_location1" value="ห้องพิจารณาคดี 1-8  ณ อาคารศิริพรรณ กรมบังคับคดี  เลขที่ 189/1 ถนนบางขุนนนท์ แขวงบางขุนนนท์ เขตบางกอกน้อย กรุงเทพมหานคร">
+        <input type="hidden" name="sale_location2" value="">
+        <input type="hidden" name="sale_time1" value="9.00">
+        <input type="hidden" name="sale_time2" value="">
+        <input type="hidden" name="debtname" value="">
+        <input type="hidden" name="debtprice" value="0">
+
+        <button type="submit" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Go to Asset Page</button>
+    </form>
+</body>
+</html>
