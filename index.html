@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
   <head>
@@ -342,6 +343,8 @@
       numControllersSelect.addEventListener('change', updateControllerFields);
 
       // เติมรายชื่อจังหวัดลงใน select (ใช้ข้อมูล addressDataLoaded)
+      // เริ่มต้นด้วยตัวเลือก placeholder "-- เลือกจังหวัด --"
+      provinceSelect.innerHTML = '<option value="">-- เลือกจังหวัด --</option>';
       for (const prov of Object.keys(addressDataLoaded).sort()) {
         const option = document.createElement('option');
         option.value = prov;
@@ -418,7 +421,7 @@
         updateZipFromSelection();
       });
 
-      // Prefill default values for address and other fields
+      // Prefill default values for other fields
       function prefillDefaults() {
         // ไม่ตั้งค่า default ลำดับที่และ Plan Code เพื่อให้ผู้ใช้กรอกเอง
         // เติมรายการปีในการใช้งานครั้งแรก
@@ -428,6 +431,7 @@
         yearSelect.value = String(now.getFullYear());
         // ไม่ตั้งค่า default วันเกิด
         document.getElementById('insbirthdate').value = '';
+        // ไม่ต้องตั้งค่า default ที่อยู่หรือจังหวัด
       }
 
       document.addEventListener('DOMContentLoaded', () => {
