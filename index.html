@@ -428,18 +428,6 @@
         yearSelect.value = String(now.getFullYear());
         // ไม่ตั้งค่า default วันเกิด
         document.getElementById('insbirthdate').value = '';
-        // Prefill address to Rayong as an example (ผู้ใช้งานอยู่จังหวัดระยอง)
-        document.getElementById('address1').value = '123/45';
-        document.getElementById('address2').value = 'หมู่บ้านสุขใจ';
-        document.getElementById('address3').value = 'ซอยสุขุมวิท';
-        document.getElementById('address4').value = 'ถนนสุขุมวิท';
-        // Set province, amphur and district using dynamic dropdowns
-        provinceSelect.value = 'ระยอง';
-        updateAmphur();
-        amphurSelect.value = 'เมืองระยอง';
-        updateDistricts();
-        districtSelect.value = 'ท่าประดู่';
-        updateZipFromSelection();
       }
 
       document.addEventListener('DOMContentLoaded', () => {
