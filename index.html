@@ -866,5 +866,39 @@ if (!isNaN(numCtrl) && numCtrl > 0) {
       });
     </script>
 
+	  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  /* เปิด date-picker ปี พ.ศ. */
+  flatpickr('#insbirthdate', {
+    locale: 'th',
+    altInput: true,
+    altFormat: 'd/m/Y',
+    dateFormat: 'Y-m-d',
+    onReady   : (_, __, fp) => adjustToBE(fp),
+    onYearChange : (_, fp)  => adjustToBE(fp),
+    onMonthChange: (_, fp)  => adjustToBE(fp),
+    onOpen    : (_, fp)     => adjustToBE(fp),
+    onClose   : (_, fp)     => restoreCE(fp)
+  });
+
+  function adjustToBE(fp) {
+    if (fp.currentYear < 2500) {       // เปลี่ยนเฉพาะถ้ายังเป็น ค.ศ.
+      fp.currentYear += 543;
+      fp.redraw();
+    }
+  }
+  function restoreCE(fp) {
+    const parts = fp.input.value.split('/');
+    if (parts.length === 3) {
+      const be = +parts[2];
+      if (be > 2400) {
+        const ce = be - 543;
+        fp.setDate(`${parts[0]}/${parts[1]}/${ce}`, false, 'd/m/Y');
+      }
+    }
+  }
+});
+</script>
+
   </body>
 </html>
