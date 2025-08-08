@@ -251,9 +251,19 @@
           </div>
         </fieldset>
 
-        <div class="mt-6 flex justify-center">
-          <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">ส่งข้อมูล</button>
-        </div>
+        <div class="mt-6 flex justify-center gap-4">
+  <!-- ปุ่มส่ง -->
+  <button type="submit"
+          class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+    ส่งข้อมูล
+  </button>
+
+  <!-- ปุ่มยกเลิก -->
+  <button type="button" id="resetBtn"
+          class="px-6 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded">
+    ยกเลิก
+  </button>
+</div>
         <!-- Notification area for success/error messages -->
         <div id="notification" class="fixed top-5 right-5 z-50 hidden px-4 py-2 rounded shadow"></div>
       </form>
@@ -859,17 +869,19 @@ if (!isNaN(numCtrl) && numCtrl > 0) {
 	  <script>
 document.addEventListener('DOMContentLoaded', function () {
   /* เปิด date-picker ปี พ.ศ. */
-  flatpickr('#insbirthdate', {
+  window.datePickerInstance = flatpickr('#insbirthdate', {
     locale: 'th',
     altInput: true,
-    altFormat: 'd/m/Y',
-    dateFormat: 'Y-m-d',
-    onReady   : (_, __, fp) => adjustToBE(fp),
-    onYearChange : (_, fp)  => adjustToBE(fp),
-    onMonthChange: (_, fp)  => adjustToBE(fp),
-    onOpen    : (_, fp)     => adjustToBE(fp),
-    onClose   : (_, fp)     => restoreCE(fp)
+    altFormat: 'd/m/Y',   // แสดง 31/12/2568
+    dateFormat: 'Y-m-d',  // ค่าที่เก็บ 2025-12-31 (CE)
+    onReady      : (_, __, fp) => adjustToBE(fp),
+    onYearChange : (_, fp)     => adjustToBE(fp),
+    onMonthChange: (_, fp)     => adjustToBE(fp),
+    onOpen       : (_, fp)     => adjustToBE(fp),
+    onClose      : (_, fp)     => restoreCE(fp)
   });
+});
+
 
   function adjustToBE(fp) {
     if (fp.currentYear < 2500) {       // เปลี่ยนเฉพาะถ้ายังเป็น ค.ศ.
@@ -889,6 +901,42 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+
+	  /* === ปุ่มยกเลิก: รีเซ็ตฟอร์ม & เคลียร์ทุกฟิลด์ === */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  // รีเซ็ต element form มาตรฐาน
+  insuranceForm.reset();
+
+  /* ---------- เคลียร์ field dynamic & พิเศษ ---------- */
+  // 1) ลบชื่อ-ผู้บังคับที่สร้างแบบไดนามิก
+  controllerContainer.innerHTML = '';
+
+  // 2) รีเซ็ต dropdown อำเภอ/ตำบล/แผนประกันภัย ให้กลับสถานะปิด
+  amphurSelect.disabled   = true;
+  districtSelect.disabled = true;
+  amphurSelect.innerHTML  = '<option value="">-- เลือกอำเภอ --</option>';
+  districtSelect.innerHTML= '<option value="">-- เลือกตำบล --</option>';
+  zipcodeInput.value      = '';
+
+  planSelect.disabled = true;
+  planSelect.innerHTML = '<option value="">-- เลือกแผนประกันภัย --</option>';
+
+  // 3) เคลียร์ไฟล์ที่อัปโหลด (file input ไม่ถูก reset ด้วย .reset() ในบางเบราว์เซอร์)
+  document.querySelectorAll('input[type="file"]').forEach(f => f.value = '');
+
+  // 4) เคลียร์ error style / ข้อความเตือน
+  document.querySelectorAll('.error-input').forEach(el => el.classList.remove('error-input'));
+  document.querySelectorAll('.error-message').forEach(el => el.remove());
+
+  // 5) เติมปี Drone ใหม่ (แค่ 5 ปีย้อนหลัง)
+  populateYearOptions();
+
+  // 6) เคลียร์ / รีเซ็ต date-picker
+  if (window.datePickerInstance) {
+    window.datePickerInstance.clear();       // ลบค่าทั้ง altInput & value
+  }
+});
+
 
   </body>
 </html>
