@@ -828,40 +828,43 @@ if (!isNaN(numCtrl) && numCtrl > 0) {
       });
     </script>
 
-	  <script>
-/* ---------- helper BE/CE ---------- */
-function adjustToBE(fp) {
-  if (fp.currentYear < 2500) {          // ถ้ายังเป็น ค.ศ.
-    fp.currentYear += 543;
-    fp.redraw();
-  }
+<script>
+// ===== helper: แสดงผลเป็น พ.ศ. เฉพาะใน UI =====
+function setAltToBE(fp) {
+  if (!fp.altInput) return;
+  const d = fp.selectedDates[0];
+  if (!d) { fp.altInput.value = ''; return; }
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth() + 1).padStart(2,'0');
+  const be = d.getFullYear() + 543;
+  fp.altInput.value = `${dd}/${mm}/${be}`;  // โชว์เป็น พ.ศ.
 }
-function restoreCE(fp) {
-  const parts = fp.input.value.split('/');
-  if (parts.length === 3) {
-    const be = +parts[2];
-    if (be > 2400) {
-      const ce = be - 543;
-      fp.setDate(`${parts[0]}/${parts[1]}/${ce}`, false, 'd/m/Y');
-    }
-  }
+function setHeaderYearBE(fp) {
+  const ye = fp.currentYearElement;
+  if (!ye) return;
+  const ce = parseInt(ye.value, 10);
+  if (!isNaN(ce)) ye.value = ce + 543;      // เปลี่ยนปีบนเฮดเดอร์เป็น พ.ศ.
+  ye.setAttribute('readonly','readonly');   // กันพิมพ์ปีผิด
 }
 
-/* ---------- สร้าง date-picker ---------- */
+// ===== init flatpickr =====
 document.addEventListener('DOMContentLoaded', () => {
   window.datePickerInstance = flatpickr('#insbirthdate', {
-    locale      : 'th',
-    altInput    : true,
-    altFormat   : 'd/m/Y',   // 31/12/2568
-    dateFormat  : 'Y-m-d',   // 2025-12-31
-    onReady     : adjustToBE,
-    onYearChange: adjustToBE,
-    onMonthChange: adjustToBE,
-    onOpen      : adjustToBE,
-    onClose     : restoreCE
+    // ใช้ locale ไทย (ต้องโหลด th.js แล้ว)
+    locale: 'th',                   // หรือ locale: flatpickr.l10ns.th
+    altInput: true,
+    dateFormat: 'Y-m-d',            // เก็บ/ส่งเป็น ค.ศ. เช่น 1990-03-25
+    altFormat: 'd/m/Y',             // base เดี๋ยวเราทับด้วย พ.ศ. เอง
+    allowInput: false,              // กันผู้ใช้พิมพ์ (ลดงาน parse พ.ศ.)
+    onReady:        (s, str, fp) => { setHeaderYearBE(fp); setAltToBE(fp); },
+    onOpen:         (s, str, fp) => { setHeaderYearBE(fp); },
+    onMonthChange:  (s, str, fp) => { setHeaderYearBE(fp); },
+    onYearChange:   (s, str, fp) => { setHeaderYearBE(fp); },
+    onValueUpdate:  (s, str, fp) => { setHeaderYearBE(fp); setAltToBE(fp); }
   });
 });
 </script>
+
 
 
 	  <script>
