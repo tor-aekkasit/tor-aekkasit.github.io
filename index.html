@@ -829,39 +829,39 @@ if (!isNaN(numCtrl) && numCtrl > 0) {
     </script>
 
 <script>
-// ===== helper: แสดงผลเป็น พ.ศ. เฉพาะใน UI =====
+// ===== helper: แสดง พ.ศ. แค่ใน UI (altInput/เฮดเดอร์) =====
 function setAltToBE(fp) {
   if (!fp.altInput) return;
   const d = fp.selectedDates[0];
   if (!d) { fp.altInput.value = ''; return; }
   const dd = String(d.getDate()).padStart(2,'0');
-  const mm = String(d.getMonth() + 1).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
   const be = d.getFullYear() + 543;
-  fp.altInput.value = `${dd}/${mm}/${be}`;  // โชว์เป็น พ.ศ.
+  fp.altInput.value = `${dd}/${mm}/${be}`;
 }
-	
-<script>
+
 function setHeaderYearBE(fp) {
-  // รอให้ flatpickr วาดหัวเดือน/ปี เสร็จก่อนค่อยแปลง
+  // รอให้ flatpickr วาดหัวเดือน/ปี ก่อนค่อยแตะ
   requestAnimationFrame(() => {
     const yearEl = fp.calendarContainer?.querySelector('.flatpickr-current-month input.cur-year');
     if (!yearEl) return;
-    const ce = parseInt(yearEl.value, 10);
-    if (!isNaN(ce)) yearEl.value = ce + 543;   // โชว์เป็น พ.ศ.
-    yearEl.readOnly = true;                    // กันพิมพ์ปีทับ
+
+    // ถ้าเป็น พ.ศ. อยู่แล้ว ให้แปลงกลับเป็น ค.ศ. ก่อนค่อย +543 เพื่อกันบวกซ้ำ
+    let num = parseInt(yearEl.value, 10);
+    if (isNaN(num)) return;
+    if (num > 2400) num -= 543;   // เคยเป็น พ.ศ. แล้ว
+    yearEl.value = num + 543;     // แสดงเป็น พ.ศ.
+    yearEl.readOnly = true;       // กันพิมพ์ปีผิด
   });
 }
-</script>
 
-// ===== init flatpickr =====
 document.addEventListener('DOMContentLoaded', () => {
   window.datePickerInstance = flatpickr('#insbirthdate', {
-    // ใช้ locale ไทย (ต้องโหลด th.js แล้ว)
-    locale: 'th',                   // หรือ locale: flatpickr.l10ns.th
+    locale: 'th',            // ต้องโหลด th.js แล้ว
     altInput: true,
-    dateFormat: 'Y-m-d',            // เก็บ/ส่งเป็น ค.ศ. เช่น 1990-03-25
-    altFormat: 'd/m/Y',             // base เดี๋ยวเราทับด้วย พ.ศ. เอง
-    allowInput: false,              // กันผู้ใช้พิมพ์ (ลดงาน parse พ.ศ.)
+    dateFormat: 'Y-m-d',     // เก็บ/ส่งเป็น ค.ศ.
+    altFormat: 'd/m/Y',      // base (เราจะเขียนทับเป็น พ.ศ. เอง)
+    allowInput: false,
     onReady:        (s, str, fp) => { setHeaderYearBE(fp); setAltToBE(fp); },
     onOpen:         (s, str, fp) => { setHeaderYearBE(fp); },
     onMonthChange:  (s, str, fp) => { setHeaderYearBE(fp); },
@@ -870,6 +870,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
 
 
 
