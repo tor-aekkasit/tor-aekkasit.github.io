@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="th">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>แบบฟอร์มเอาประกันภัยโดรน</title>
+    <title>แจ้งทำประกันภัยโดรนเกษตร</title>
     <!-- TailwindCSS via CDN for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Import Sarabun font for a clean and modern Thai typeface -->
@@ -69,7 +68,9 @@
   </head>
   <body class="bg-gray-100 py-8">
     <div class="max-w-5xl mx-auto container-bg p-8 shadow-lg rounded-lg">
-      <h1 class="text-3xl font-bold mb-6 text-center">แบบฟอร์มเอาประกันภัยโดรน</h1>
+      <!-- โลโก้บริษัท -->
+      <img src="https://www.krapaotang.co.th/wp-content/uploads/2021/03/new_re.png" alt="Logo" class="mx-auto h-16 mb-4" />
+      <h1 class="text-3xl font-bold mb-6 text-center">แจ้งทำประกันภัยโดรนเกษตร</h1>
       <form id="insuranceForm" novalidate>
         <!-- ส่วนข้อมูลลำดับ แผนประกันภัย และวันเริ่มความคุ้มครองถูกตัดออกตามคำขอของผู้ใช้ -->
         <!-- กลุ่มข้อมูลผู้เอาประกันภัย -->
@@ -171,10 +172,21 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="flex flex-col">
               <label for="BrandModel" class="mb-1 font-medium">ยี่ห้อและรุ่น<span class="text-red-500">*</span></label>
-              <input type="text" id="BrandModel" name="BrandModel" class="w-full border rounded p-2" placeholder="Brand / Model" />
+              <!-- เปลี่ยนเป็น select เพื่อให้ผู้ใช้เลือกยี่ห้อและรุ่นจากรายการ -->
+              <select id="BrandModel" name="BrandModel" class="w-full border rounded p-2">
+                <option value="">-- เลือกยี่ห้อและรุ่น --</option>
+                <option value="Dji T10">Dji T10</option>
+                <option value="Dji T20">Dji T20</option>
+                <option value="Dji T25">Dji T25</option>
+                <option value="Dji T30">Dji T30</option>
+                <option value="Dji T40">Dji T40</option>
+                <option value="Dji T50">Dji T50</option>
+                <option value="Dji T70">Dji T70</option>
+                <option value="Dji T100">Dji T100</option>
+              </select>
             </div>
             <div class="flex flex-col">
-              <label for="Year" class="mb-1 font-medium">ปี Drone (ปีค.ศ.)<span class="text-red-500">*</span></label>
+              <label for="Year" class="mb-1 font-medium">ปี Drone (ปีพ.ศ.)<span class="text-red-500">*</span></label>
               <!-- เปลี่ยนเป็น select เพื่อให้เลือกปีได้ -->
               <select id="Year" name="Year" class="w-full border rounded p-2">
                 <option value="">-- เลือกปี --</option>
@@ -183,6 +195,11 @@
             <div class="flex flex-col">
               <label for="SerialNo" class="mb-1 font-medium">หมายเลขประจำเครื่อง<span class="text-red-500">*</span></label>
               <input type="text" id="SerialNo" name="SerialNo" class="w-full border rounded p-2" placeholder="Serial Number" />
+            </div>
+            <!-- ฟิลด์อัปโหลดรูปถ่ายหมายเลขโดรน (ไม่บังคับ) -->
+            <div class="flex flex-col">
+              <label for="droneSerialPhoto" class="mb-1 font-medium">รูปถ่ายหมายเลขโดรน<span class="text-red-500">*</span></label>
+              <input type="file" id="droneSerialPhoto" name="droneSerialPhoto" accept="image/*" class="w-full border rounded p-2" />
             </div>
             <!-- ส่วนเลือกน้ำหนักโดรนและแพ็คเกจจะย้ายไปอยู่ในกลุ่มข้อมูลแผนประกันภัย -->
           </div>
@@ -214,19 +231,10 @@
           <legend class="font-semibold text-lg px-2">ข้อมูลแผนประกันภัย</legend>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="flex flex-col">
-              <label for="droneWeight" class="mb-1 font-medium">น้ำหนักโดรน<span class="text-red-500">*</span></label>
-              <select id="droneWeight" name="droneWeight" class="w-full border rounded p-2">
-                <option value="">-- เลือกน้ำหนักโดรน --</option>
-                <option value="<=25">น้ำหนักโดรนไม่เกิน 25 กก. ทุน 1 ล้าน</option>
-                <option value="25.01-50">น้ำหนักโดรนไม่เกิน 25.01 - 50 กก. ทุน 2 ล้าน</option>
-                <option value="<=70">น้ำหนักโดรนไม่เกิน 70 กก. ทุน 2 ล้าน</option>
-                <option value="<=100">น้ำหนักโดรนไม่เกิน 100 กก. ทุน 2 ล้าน</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="packageSelect" class="mb-1 font-medium">แพ็คเกจ<span class="text-red-500">*</span></label>
-              <select id="packageSelect" name="packageSelect" class="w-full border rounded p-2" disabled>
-                <option value="">-- เลือกแพ็คเกจ --</option>
+              <label for="planSelect" class="mb-1 font-medium">แผนประกันภัย<span class="text-red-500">*</span></label>
+              <!-- รายการแผนประกันภัยจะขึ้นอยู่กับยี่ห้อและรุ่นที่เลือก -->
+              <select id="planSelect" name="planSelect" class="w-full border rounded p-2" disabled>
+                <option value="">-- เลือกแผนประกันภัย --</option>
               </select>
             </div>
           </div>
@@ -340,17 +348,26 @@
       const numControllersSelect = document.getElementById('numControllers');
       const controllerContainer = document.getElementById('controllerInputs');
 
-      // ดึง DOM elements สำหรับน้ำหนักโดรนและแพ็คเกจ
-      const droneWeightSelect = document.getElementById('droneWeight');
-      const packageSelect = document.getElementById('packageSelect');
+      // ดึง DOM elements สำหรับรุ่นและแผนประกันภัย
+      const brandModelSelect = document.getElementById('BrandModel');
+      const planSelect = document.getElementById('planSelect');
 
-      // ข้อมูลแพ็คเกจตามน้ำหนักโดรน
-      const packagesByWeight = {
-        "<=25": [
-          { price: '1080', company: 'บริษัท เจมาร์ท' },
-          { price: '999', company: 'บริษัท ไทยพัฒนา' },
-        ],
-        "25.01-50": [
+      // ดึง DOM element สำหรับรูปถ่ายหมายเลขโดรน
+      const droneSerialPhotoInput = document.getElementById('droneSerialPhoto');
+
+      // ฟังก์ชันแปลงไฟล์เป็น Base64 (data URL)
+      function toBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
+
+      // ข้อมูลแผนประกันภัยตามยี่ห้อและรุ่น
+      const packagesByModel = {
+        'Dji T10': [
           { price: '2370', company: 'บริษัท เจมาร์ท' },
           { price: '2820', company: 'บริษัท เจมาร์ท' },
           { price: '2329', company: 'บริษัท ไทยพัฒนา' },
@@ -359,14 +376,25 @@
           { price: '2090', company: 'บริษัท ทิพย' },
           { price: '2490', company: 'บริษัท ทิพย' },
         ],
-        "<=70": [
-          { price: '3120', company: 'บริษัท เจมาร์ท' },
-          { price: '3570', company: 'บริษัท เจมาร์ท' },
+        'Dji T20': [
+          { price: '2370', company: 'บริษัท เจมาร์ท' },
+          { price: '2820', company: 'บริษัท เจมาร์ท' },
+          { price: '2329', company: 'บริษัท ไทยพัฒนา' },
+          { price: '2429', company: 'บริษัท ไทยพัฒนา' },
           { price: '3000', company: 'บริษัท กรุงเทพ' },
           { price: '2090', company: 'บริษัท ทิพย' },
           { price: '2490', company: 'บริษัท ทิพย' },
         ],
-        "<=100": [
+        'Dji T25': [
+          { price: '2370', company: 'บริษัท เจมาร์ท' },
+          { price: '2820', company: 'บริษัท เจมาร์ท' },
+          { price: '2329', company: 'บริษัท ไทยพัฒนา' },
+          { price: '2429', company: 'บริษัท ไทยพัฒนา' },
+          { price: '3000', company: 'บริษัท กรุงเทพ' },
+          { price: '2090', company: 'บริษัท ทิพย' },
+          { price: '2490', company: 'บริษัท ทิพย' },
+        ],
+        'Dji T30': [
           { price: '4320', company: 'บริษัท เจมาร์ท' },
           { price: '4920', company: 'บริษัท เจมาร์ท' },
           { price: '3729', company: 'บริษัท ไทยพัฒนา' },
@@ -375,31 +403,55 @@
           { price: '2090', company: 'บริษัท ทิพย' },
           { price: '2490', company: 'บริษัท ทิพย' },
         ],
+        'Dji T40': [
+          { price: '4320', company: 'บริษัท เจมาร์ท' },
+          { price: '4920', company: 'บริษัท เจมาร์ท' },
+          { price: '3729', company: 'บริษัท ไทยพัฒนา' },
+          { price: '3829', company: 'บริษัท ไทยพัฒนา' },
+          { price: '3000', company: 'บริษัท กรุงเทพ' },
+          { price: '2090', company: 'บริษัท ทิพย' },
+          { price: '2490', company: 'บริษัท ทิพย' },
+        ],
+        'Dji T50': [
+          { price: '4320', company: 'บริษัท เจมาร์ท' },
+          { price: '4920', company: 'บริษัท เจมาร์ท' },
+          { price: '3729', company: 'บริษัท ไทยพัฒนา' },
+          { price: '3829', company: 'บริษัท ไทยพัฒนา' },
+          { price: '3000', company: 'บริษัท กรุงเทพ' },
+          { price: '2090', company: 'บริษัท ทิพย' },
+          { price: '2490', company: 'บริษัท ทิพย' },
+        ],
+        'Dji T70': [
+          { price: '3000', company: 'บริษัท กรุงเทพ' },
+        ],
+        'Dji T100': [
+          { price: '3000', company: 'บริษัท กรุงเทพ' },
+        ],
       };
 
-      // เมื่อเลือกน้ำหนักโดรน ให้แสดงรายการแพ็คเกจที่เกี่ยวข้อง
-      function updatePackageOptions() {
-        const weight = droneWeightSelect.value;
-        // รีเซ็ตแพ็คเกจ
-        packageSelect.innerHTML = '<option value="">-- เลือกแพ็คเกจ --</option>';
-        if (packagesByWeight[weight]) {
-          packageSelect.disabled = false;
-          packagesByWeight[weight].forEach(pkg => {
+      // เมื่อเลือกยี่ห้อและรุ่น ให้แสดงรายการแผนประกันภัยที่เกี่ยวข้อง
+      function updatePlanOptions() {
+        const model = brandModelSelect.value;
+        // รีเซ็ตแผนประกันภัย
+        planSelect.innerHTML = '<option value="">-- เลือกแผนประกันภัย --</option>';
+        if (packagesByModel[model]) {
+          planSelect.disabled = false;
+          packagesByModel[model].forEach(pkg => {
             const option = document.createElement('option');
             option.value = `${pkg.price}|${pkg.company}`;
             option.textContent = `${pkg.price} บาท - ${pkg.company}`;
-            packageSelect.appendChild(option);
+            planSelect.appendChild(option);
           });
         } else {
-          packageSelect.disabled = true;
+          planSelect.disabled = true;
         }
       }
 
-      // ผูกอีเวนต์เมื่อเลือกน้ำหนักโดรน
-      droneWeightSelect.addEventListener('change', updatePackageOptions);
+      // ผูกอีเวนต์เมื่อเลือกยี่ห้อและรุ่น
+      brandModelSelect.addEventListener('change', updatePlanOptions);
 
-      // URL สำหรับ webhook 
-      const webhookURL = 'https://techs.co.th/webhook/d6358ab9-165a-4f51-8b17-dce91d5bc9e4';
+      // URL สำหรับ webhook ทดสอบ (เปลี่ยนเป็น production URL เมื่อต้องการใช้งานจริง)
+      const webhookURL = 'https://techs.co.th/webhook-test/d6358ab9-165a-4f51-8b17-dce91d5bc9e4';
 
       // ฟังก์ชันแสดงข้อความแจ้งเตือน (success/error)
       function showNotification(message, type) {
@@ -416,39 +468,60 @@
 
       // เติมรายการปี (ตั้งแต่ปี 2000 ถึงปีปัจจุบัน)
       function populateYearOptions() {
-        const currentYear = new Date().getFullYear();
-        for (let y = currentYear; y >= 2000; y--) {
+        const currentYearCE = new Date().getFullYear();
+        // แปลงปีเป็น พ.ศ. โดยบวก 543 ปี
+        for (let y = currentYearCE; y >= 2000; y--) {
+          const beYear = y + 543;
           const opt = document.createElement('option');
-          opt.value = String(y);
-          opt.textContent = String(y);
+          opt.value = String(beYear);
+          opt.textContent = String(beYear);
           yearSelect.appendChild(opt);
         }
       }
 
       // เมื่อเลือกจำนวนผู้บังคับ ให้สร้างฟิลด์กรอกชื่อ
-      function updateControllerFields() {
-        const count = parseInt(numControllersSelect.value);
-        // ล้างรายการเดิม
-        controllerContainer.innerHTML = '';
-        if (!isNaN(count) && count > 0) {
-          for (let i = 1; i <= count; i++) {
-            const div = document.createElement('div');
-            div.className = 'flex flex-col';
-            const label = document.createElement('label');
-            label.className = 'mb-1 font-medium';
-            label.setAttribute('for', 'NameControl' + i);
-            label.textContent = 'ชื่อผู้บังคับคนที่ ' + i + (i === 1 ? '*' : '');
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.id = 'NameControl' + i;
-            input.name = 'NameControl' + i;
-            input.className = 'w-full border rounded p-2';
-            div.appendChild(label);
-            div.appendChild(input);
-            controllerContainer.appendChild(div);
-          }
-        }
-      }
+      function updateControllerFields () {
+  const count = parseInt(numControllersSelect.value);
+  controllerContainer.innerHTML = '';
+  if (!isNaN(count) && count > 0) {
+    for (let i = 1; i <= count; i++) {
+      const div = document.createElement('div');
+      div.className = 'flex flex-col';
+
+      /* --- ชื่อผู้บังคับ (บังคับ) --- */
+      const nameLabel = document.createElement('label');
+      nameLabel.className = 'mb-1 font-medium';
+      nameLabel.setAttribute('for', 'NameControl' + i);
+      nameLabel.innerHTML = `ชื่อผู้บังคับคนที่ ${i} <span class="text-red-500">*</span>`;     
+      const nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.id = 'NameControl' + i;
+      nameInput.name = 'NameControl' + i;
+      nameInput.required = true;                                         
+      nameInput.className = 'w-full border rounded p-2';
+      div.appendChild(nameLabel);
+      div.appendChild(nameInput);
+
+      /* --- รูปถ่ายบัตรประชาชน (บังคับ) --- */
+      const fileLabel = document.createElement('label');
+      fileLabel.className = 'mb-1 font-medium';
+      fileLabel.setAttribute('for', 'IDCardPhoto' + i);
+      fileLabel.innerHTML = `รูปถ่ายบัตรประชาชนคนที่ ${i} <span class="text-red-500">*</span>`;
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.id = 'IDCardPhoto' + i;
+      fileInput.name = 'IDCardPhoto' + i;
+      fileInput.accept = 'image/*';
+      fileInput.required = true;                                         
+      fileInput.className = 'w-full border rounded p-2';
+      div.appendChild(fileLabel);
+      div.appendChild(fileInput);
+
+      controllerContainer.appendChild(div);
+    }
+  }
+}
+
 
       // ผูกอีเวนต์สำหรับการเปลี่ยนจำนวนผู้บังคับ
       numControllersSelect.addEventListener('change', updateControllerFields);
@@ -539,7 +612,8 @@
         populateYearOptions();
         // คำนวณปีปัจจุบันสำหรับการตั้งค่าปีของโดรนเป็นค่าเริ่มต้น
         const now = new Date();
-        yearSelect.value = String(now.getFullYear());
+        // ตั้งค่าปีของโดรนเป็นปี พ.ศ. (บวก 543 ปี)
+        yearSelect.value = String(now.getFullYear() + 543);
         // ไม่ตั้งค่า default วันเกิด
         document.getElementById('insbirthdate').value = '';
         // ไม่ต้องตั้งค่า default ที่อยู่หรือจังหวัด
@@ -575,7 +649,7 @@
       const passportPattern = /^[A-Za-z0-9]{6,15}$/;
 
       // Main validation on form submit
-      document.getElementById('insuranceForm').addEventListener('submit', function (event) {
+      document.getElementById('insuranceForm').addEventListener('submit', async function (event) {
         event.preventDefault();
         let valid = true;
         // Clear previous errors
@@ -584,7 +658,7 @@
           'insidcard', 'insbirthdate', 'insemail', 'insphone',
           'address1', 'address2', 'address3', 'address4',
           'district', 'amphur', 'province', 'zipcode',
-          'BrandModel', 'Year', 'SerialNo', 'droneWeight', 'packageSelect', 'numControllers'
+          'BrandModel', 'Year', 'SerialNo', 'planSelect', 'numControllers', 'droneSerialPhoto'
         ];
         fields.forEach(id => {
           const el = document.getElementById(id);
@@ -612,11 +686,11 @@
         required('amphur', 'กรุณาเลือกอำเภอ');
         required('province', 'กรุณาเลือกจังหวัด');
         required('zipcode', 'กรุณากรอกรหัสไปรษณีย์');
-        required('BrandModel', 'กรุณากรอกยี่ห้อและรุ่น');
+        required('BrandModel', 'กรุณาเลือกยี่ห้อและรุ่น');
         required('Year', 'กรุณาเลือกปีของโดรน');
         required('SerialNo', 'กรุณากรอกหมายเลขประจำเครื่อง');
-        required('droneWeight', 'กรุณาเลือกน้ำหนักโดรน');
-        required('packageSelect', 'กรุณาเลือกแพ็คเกจ');
+        required('planSelect', 'กรุณาเลือกแผนประกันภัย');
+	required('droneSerialPhoto','กรุณาอัปโหลดรูปถ่ายหมายเลขโดรน');
         // การตรวจสอบชื่อผู้บังคับจะทำแบบไดนามิกด้านล่าง
 
         // Additional pattern validations
@@ -652,15 +726,21 @@
         }
         // Validate dynamic controller names
         const numCtrl = parseInt(document.getElementById('numControllers').value);
-        if (!isNaN(numCtrl) && numCtrl > 0) {
-          for (let i = 1; i <= numCtrl; i++) {
-            const ctrlInput = document.getElementById('NameControl' + i);
-            if (ctrlInput && (ctrlInput.value.trim() === '')) {
-              showError(ctrlInput, 'กรุณากรอกชื่อผู้บังคับคนที่ ' + i);
-              valid = false;
-            }
-          }
-        }
+if (!isNaN(numCtrl) && numCtrl > 0) {
+  for (let i = 1; i <= numCtrl; i++) {
+    const nameEl = document.getElementById('NameControl' + i);
+    const photoEl = document.getElementById('IDCardPhoto' + i);
+
+    if (!nameEl.value.trim()) {
+      showError(nameEl, 'กรุณากรอกชื่อผู้บังคับคนที่ ' + i);
+      valid = false;
+    }
+    if (!(photoEl.files && photoEl.files.length > 0)) {
+      showError(photoEl, 'กรุณาอัปโหลดรูปบัตรประชาชนคนที่ ' + i);
+      valid = false;
+    }
+  }
+}
         // If valid, send data to n8n webhook via POST
         if (valid) {
           // รวบรวมข้อมูลจากฟอร์มลงในอ็อบเจ็กต์
@@ -672,36 +752,69 @@
               formDataObj[id] = el.value;
             }
           });
-          // เก็บชื่อผู้บังคับทั้งหมดในอาร์เรย์ controllers
+          // เก็บชื่อและรูปผู้บังคับทั้งหมดในอาร์เรย์ controllers (เป็นอ็อบเจ็กต์ { name, idCardPhoto })
           const numCtrlSend = parseInt(document.getElementById('numControllers').value);
           if (!isNaN(numCtrlSend) && numCtrlSend > 0) {
             formDataObj.controllers = [];
             for (let i = 1; i <= numCtrlSend; i++) {
-              const ctrlInput = document.getElementById('NameControl' + i);
-              if (ctrlInput) {
-                formDataObj.controllers.push(ctrlInput.value);
+              const nameInput = document.getElementById('NameControl' + i);
+              const idPhotoInput = document.getElementById('IDCardPhoto' + i);
+              const controllerObj = {};
+              if (nameInput) {
+                controllerObj.name = nameInput.value;
               }
+              if (idPhotoInput && idPhotoInput.files && idPhotoInput.files[0]) {
+                try {
+                  controllerObj.idCardPhoto = await toBase64(idPhotoInput.files[0]);
+                } catch (e) {
+                  console.error('Error converting ID card photo for controller ' + i + ':', e);
+                  controllerObj.idCardPhoto = null;
+                }
+              } else {
+                controllerObj.idCardPhoto = null;
+              }
+              formDataObj.controllers.push(controllerObj);
             }
           }
+          // หากมีวันเกิด แปลงปี ค.ศ. เป็น พ.ศ. (บวก 543) ก่อนส่ง
+          if (formDataObj.insbirthdate) {
+            const parts = formDataObj.insbirthdate.split('-');
+            if (parts.length === 3) {
+              const beYear = parseInt(parts[0], 10) + 543;
+              formDataObj.insbirthdate = `${beYear}-${parts[1]}-${parts[2]}`;
+            }
+          }
+          // หากมีไฟล์รูปหมายเลขโดรน ให้แปลงเป็น base64 แล้วเพิ่มในข้อมูลที่จะส่ง
+          if (droneSerialPhotoInput.files && droneSerialPhotoInput.files[0]) {
+            try {
+              formDataObj.droneSerialPhoto = await toBase64(droneSerialPhotoInput.files[0]);
+            } catch (e) {
+              console.error('Error converting drone serial photo:', e);
+            }
+          } else {
+            // ไม่ต้องส่งคีย์ droneSerialPhoto หากไม่ได้เลือกไฟล์
+            delete formDataObj.droneSerialPhoto;
+          }
+
+
           // ส่งข้อมูลไปยัง webhook URL
-          fetch(webhookURL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formDataObj)
-          })
-            .then(response => {
-              if (response.ok) {
-                showNotification('ส่งข้อมูลเรียบร้อยแล้ว', 'success');
-              } else {
-                showNotification('เกิดข้อผิดพลาดในการส่งข้อมูล', 'error');
-              }
-            })
-            .catch(error => {
-              console.error('Error sending webhook:', error);
-              showNotification('เกิดข้อผิดพลาดในการส่งข้อมูล', 'error');
+          try {
+            const response = await fetch(webhookURL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(formDataObj)
             });
+            if (response.ok) {
+              showNotification('ส่งข้อมูลเรียบร้อยแล้ว', 'success');
+            } else {
+              showNotification('เกิดข้อผิดพลาดในการส่งข้อมูล', 'error');
+            }
+          } catch (error) {
+            console.error('Error sending webhook:', error);
+            showNotification('เกิดข้อผิดพลาดในการส่งข้อมูล', 'error');
+          }
         }
       });
     </script>
