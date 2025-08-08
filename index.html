@@ -626,6 +626,42 @@
         prefillDefaults();
       });
 
+	// เปิด date-picker แบบปี พ.ศ.
+flatpickr('#insbirthdate', {
+  locale: 'th',        // เดือน/วันภาษาไทย
+  altInput: true,      // ช่องแสดงผลสวยกว่า
+  altFormat: 'd/m/Y',  // แสดงเป็น 31/12/2568
+  dateFormat: 'Y-m-d', // ค่าที่เก็บไว้ (จะถูกแก้เป็น BE ด้านล่าง)
+  onReady(_, __, fp) { adjustToBE(fp); },
+  onYearChange(_, fp) { adjustToBE(fp); },
+  onMonthChange(_, fp) { adjustToBE(fp); },
+  onOpen(_, fp) { adjustToBE(fp); },
+  onClose(_, fp) { restoreCE(fp); }   // กลับเป็น ค.ศ. ก่อน submit
+});
+
+// -------- helper ----------
+function adjustToBE(fp) {
+  // แสดง BE เฉพาะ UI
+  const yr = fp.currentYear;
+  if (yr < 2500) {
+    fp.currentYear = yr + 543;
+    fp.redraw();
+  }
+}
+function restoreCE(fp) {
+  // เมื่อปิด ปฏิทินให้กลับค่าเป็น ค.ศ. (เก็บ-ส่งแบบ CE)
+  const inputDate = fp.input.value;            // altInput (31/12/2568)
+  const parts = inputDate.split('/');
+  if (parts.length === 3) {
+    const beYear = parseInt(parts[2], 10);
+    if (beYear > 2400) {
+      const ceYear = beYear - 543;
+      fp.setDate(`${parts[0]}/${parts[1]}/${ceYear}`, false, 'd/m/Y');
+    }
+  }
+}
+
+
       // Validation helpers
       function showError(element, message) {
         element.classList.add('error-input');
