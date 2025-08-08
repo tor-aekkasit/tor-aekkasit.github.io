@@ -902,16 +902,16 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-	  /* === ปุ่มยกเลิก: รีเซ็ตฟอร์ม & เคลียร์ทุกฟิลด์ === */
+	  <script>
+/* === ปุ่มยกเลิก: รีเซ็ตฟอร์ม & เคลียร์ทุกฟิลด์ === */
 document.getElementById('resetBtn').addEventListener('click', () => {
   // รีเซ็ต element form มาตรฐาน
   insuranceForm.reset();
 
-  /* ---------- เคลียร์ field dynamic & พิเศษ ---------- */
-  // 1) ลบชื่อ-ผู้บังคับที่สร้างแบบไดนามิก
+  // ลบชื่อ-ผู้บังคับที่สร้างแบบไดนามิก
   controllerContainer.innerHTML = '';
 
-  // 2) รีเซ็ต dropdown อำเภอ/ตำบล/แผนประกันภัย ให้กลับสถานะปิด
+  // รีเซ็ต dropdown อำเภอ/ตำบล/แพ็กเกจ
   amphurSelect.disabled   = true;
   districtSelect.disabled = true;
   amphurSelect.innerHTML  = '<option value="">-- เลือกอำเภอ --</option>';
@@ -921,22 +921,20 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   planSelect.disabled = true;
   planSelect.innerHTML = '<option value="">-- เลือกแผนประกันภัย --</option>';
 
-  // 3) เคลียร์ไฟล์ที่อัปโหลด (file input ไม่ถูก reset ด้วย .reset() ในบางเบราว์เซอร์)
+  // เคลียร์ไฟล์ที่อัปโหลด
   document.querySelectorAll('input[type="file"]').forEach(f => f.value = '');
 
-  // 4) เคลียร์ error style / ข้อความเตือน
+  // ลบสไตล์ error / ข้อความ error
   document.querySelectorAll('.error-input').forEach(el => el.classList.remove('error-input'));
   document.querySelectorAll('.error-message').forEach(el => el.remove());
 
-  // 5) เติมปี Drone ใหม่ (แค่ 5 ปีย้อนหลัง)
+  // เติมปี Drone ใหม่ (ย้อนหลัง 5 ปี)
   populateYearOptions();
 
-  // 6) เคลียร์ / รีเซ็ต date-picker
-  if (window.datePickerInstance) {
-    window.datePickerInstance.clear();       // ลบค่าทั้ง altInput & value
-  }
+  // เคลียร์ date-picker
+  if (window.datePickerInstance) window.datePickerInstance.clear();
 });
-
+</script>
 
   </body>
 </html>
