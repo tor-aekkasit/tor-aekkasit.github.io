@@ -479,16 +479,21 @@
 
       // เติมรายการปี (ตั้งแต่ปี 2000 ถึงปีปัจจุบัน)
       function populateYearOptions() {
-        const currentYearCE = new Date().getFullYear();
-        // แปลงปีเป็น พ.ศ. โดยบวก 543 ปี
-        for (let y = currentYearCE; y >= 2000; y--) {
-          const beYear = y + 543;
-          const opt = document.createElement('option');
-          opt.value = String(beYear);
-          opt.textContent = String(beYear);
-          yearSelect.appendChild(opt);
-        }
-      }
+  const currentCE = new Date().getFullYear();  // เช่น 2025
+  const currentBE = currentCE + 543;           // 2568
+  const yearsToShow = 5;                       // จำนวนปีที่ต้องการแสดง
+
+  // เคลียร์ option เดิมก่อน (กรณีเรียกซ้ำ)
+  yearSelect.innerHTML = '<option value="">-- เลือกปี --</option>';
+
+  for (let i = 0; i < yearsToShow; i++) {
+    const be = currentBE - i;                  // 2568, 2567, …, 2564
+    const opt = document.createElement('option');
+    opt.value = String(be);
+    opt.textContent = String(be);
+    yearSelect.appendChild(opt);
+  }
+}
 
       // เมื่อเลือกจำนวนผู้บังคับ ให้สร้างฟิลด์กรอกชื่อ
       function updateControllerFields () {
