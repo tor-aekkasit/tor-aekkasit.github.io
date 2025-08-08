@@ -629,45 +629,7 @@
         updateZipFromSelection();
       });
 
-      // Prefill default values for other fields
-      function prefillDefaults() {
-        // ไม่ตั้งค่า default ลำดับที่และ Plan Code เพื่อให้ผู้ใช้กรอกเอง
-        // เติมรายการปีในการใช้งานครั้งแรก
-        populateYearOptions();
-        // คำนวณปีปัจจุบันสำหรับการตั้งค่าปีของโดรนเป็นค่าเริ่มต้น
-        const now = new Date();
-        // ตั้งค่าปีของโดรนเป็นปี พ.ศ. (บวก 543 ปี)
-        yearSelect.value = String(now.getFullYear() + 543);
-        // ไม่ตั้งค่า default วันเกิด
-        document.getElementById('insbirthdate').value = '';
-        // ไม่ต้องตั้งค่า default ที่อยู่หรือจังหวัด
-      }
 
-      document.addEventListener('DOMContentLoaded', () => {
-        prefillDefaults();
-      });
-
-// -------- helper ----------
-function adjustToBE(fp) {
-  // แสดง BE เฉพาะ UI
-  const yr = fp.currentYear;
-  if (yr < 2500) {
-    fp.currentYear = yr + 543;
-    fp.redraw();
-  }
-}
-function restoreCE(fp) {
-  // เมื่อปิด ปฏิทินให้กลับค่าเป็น ค.ศ. (เก็บ-ส่งแบบ CE)
-  const inputDate = fp.input.value;            // altInput (31/12/2568)
-  const parts = inputDate.split('/');
-  if (parts.length === 3) {
-    const beYear = parseInt(parts[2], 10);
-    if (beYear > 2400) {
-      const ceYear = beYear - 543;
-      fp.setDate(`${parts[0]}/${parts[1]}/${ceYear}`, false, 'd/m/Y');
-    }
-  }
-}
 
 
       // Validation helpers
@@ -867,40 +829,40 @@ if (!isNaN(numCtrl) && numCtrl > 0) {
     </script>
 
 	  <script>
-document.addEventListener('DOMContentLoaded', function () {
-  /* เปิด date-picker ปี พ.ศ. */
+/* ---------- helper BE/CE ---------- */
+function adjustToBE(fp) {
+  if (fp.currentYear < 2500) {          // ถ้ายังเป็น ค.ศ.
+    fp.currentYear += 543;
+    fp.redraw();
+  }
+}
+function restoreCE(fp) {
+  const parts = fp.input.value.split('/');
+  if (parts.length === 3) {
+    const be = +parts[2];
+    if (be > 2400) {
+      const ce = be - 543;
+      fp.setDate(`${parts[0]}/${parts[1]}/${ce}`, false, 'd/m/Y');
+    }
+  }
+}
+
+/* ---------- สร้าง date-picker ---------- */
+document.addEventListener('DOMContentLoaded', () => {
   window.datePickerInstance = flatpickr('#insbirthdate', {
-    locale: 'th',
-    altInput: true,
-    altFormat: 'd/m/Y',   // แสดง 31/12/2568
-    dateFormat: 'Y-m-d',  // ค่าที่เก็บ 2025-12-31 (CE)
-    onReady      : (_, __, fp) => adjustToBE(fp),
-    onYearChange : (_, fp)     => adjustToBE(fp),
-    onMonthChange: (_, fp)     => adjustToBE(fp),
-    onOpen       : (_, fp)     => adjustToBE(fp),
-    onClose      : (_, fp)     => restoreCE(fp)
+    locale      : 'th',
+    altInput    : true,
+    altFormat   : 'd/m/Y',   // 31/12/2568
+    dateFormat  : 'Y-m-d',   // 2025-12-31
+    onReady     : adjustToBE,
+    onYearChange: adjustToBE,
+    onMonthChange: adjustToBE,
+    onOpen      : adjustToBE,
+    onClose     : restoreCE
   });
 });
-
-
-  function adjustToBE(fp) {
-    if (fp.currentYear < 2500) {       // เปลี่ยนเฉพาะถ้ายังเป็น ค.ศ.
-      fp.currentYear += 543;
-      fp.redraw();
-    }
-  }
-  function restoreCE(fp) {
-    const parts = fp.input.value.split('/');
-    if (parts.length === 3) {
-      const be = +parts[2];
-      if (be > 2400) {
-        const ce = be - 543;
-        fp.setDate(`${parts[0]}/${parts[1]}/${ce}`, false, 'd/m/Y');
-      }
-    }
-  }
-});
 </script>
+
 
 	  <script>
 /* === ปุ่มยกเลิก: รีเซ็ตฟอร์ม & เคลียร์ทุกฟิลด์ === */
