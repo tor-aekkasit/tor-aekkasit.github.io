@@ -634,19 +634,6 @@
         prefillDefaults();
       });
 
-	// เปิด date-picker แบบปี พ.ศ.
-flatpickr('#insbirthdate', {
-  locale: 'th',        // เดือน/วันภาษาไทย
-  altInput: true,      // ช่องแสดงผลสวยกว่า
-  altFormat: 'd/m/Y',  // แสดงเป็น 31/12/2568
-  dateFormat: 'Y-m-d', // ค่าที่เก็บไว้ (จะถูกแก้เป็น BE ด้านล่าง)
-  onReady(_, __, fp) { adjustToBE(fp); },
-  onYearChange(_, fp) { adjustToBE(fp); },
-  onMonthChange(_, fp) { adjustToBE(fp); },
-  onOpen(_, fp) { adjustToBE(fp); },
-  onClose(_, fp) { restoreCE(fp); }   // กลับเป็น ค.ศ. ก่อน submit
-});
-
 // -------- helper ----------
 function adjustToBE(fp) {
   // แสดง BE เฉพาะ UI
