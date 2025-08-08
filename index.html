@@ -11,10 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet" />
 
 
-<link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/th.js"></script>
 
 	  
     <style>
@@ -829,48 +828,44 @@ if (!isNaN(numCtrl) && numCtrl > 0) {
     </script>
 
 <script>
-// ===== helper: แสดง พ.ศ. แค่ใน UI (altInput/เฮดเดอร์) =====
-function setAltToBE(fp) {
-  if (!fp.altInput) return;
+// แสดง พ.ศ. เฉพาะใน UI
+function setAltToBE(fp){
+  if(!fp.altInput) return;
   const d = fp.selectedDates[0];
-  if (!d) { fp.altInput.value = ''; return; }
+  if(!d){ fp.altInput.value = ''; return; }
   const dd = String(d.getDate()).padStart(2,'0');
   const mm = String(d.getMonth()+1).padStart(2,'0');
   const be = d.getFullYear() + 543;
   fp.altInput.value = `${dd}/${mm}/${be}`;
 }
-
-function setHeaderYearBE(fp) {
-  // รอให้ flatpickr วาดหัวเดือน/ปี ก่อนค่อยแตะ
-  requestAnimationFrame(() => {
-    const yearEl = fp.calendarContainer?.querySelector('.flatpickr-current-month input.cur-year');
-    if (!yearEl) return;
-
-    // ถ้าเป็น พ.ศ. อยู่แล้ว ให้แปลงกลับเป็น ค.ศ. ก่อนค่อย +543 เพื่อกันบวกซ้ำ
-    let num = parseInt(yearEl.value, 10);
-    if (isNaN(num)) return;
-    if (num > 2400) num -= 543;   // เคยเป็น พ.ศ. แล้ว
-    yearEl.value = num + 543;     // แสดงเป็น พ.ศ.
-    yearEl.readOnly = true;       // กันพิมพ์ปีผิด
+function setHeaderYearBE(fp){
+  requestAnimationFrame(function(){
+    if(!fp.calendarContainer) return;
+    var yearEl = fp.calendarContainer.querySelector('.flatpickr-current-month input.cur-year');
+    if(!yearEl) return;
+    var ce = parseInt(yearEl.value, 10);
+    if(isNaN(ce)) return;
+    if(ce > 2400) ce -= 543;  // กันการบวก 543 ซ้ำ
+    yearEl.value = ce + 543;  // แสดงเป็น พ.ศ.
+    yearEl.readOnly = true;
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.datePickerInstance = flatpickr('#insbirthdate', {
-    locale: 'th',            // ต้องโหลด th.js แล้ว
+document.addEventListener('DOMContentLoaded', function(){
+  flatpickr('#insbirthdate', {
+    locale: 'th',
     altInput: true,
-    dateFormat: 'Y-m-d',     // เก็บ/ส่งเป็น ค.ศ.
-    altFormat: 'd/m/Y',      // base (เราจะเขียนทับเป็น พ.ศ. เอง)
+    dateFormat: 'Y-m-d', // เก็บ/ส่งเป็น ค.ศ.
+    altFormat: 'd/m/Y',
     allowInput: false,
-    onReady:        (s, str, fp) => { setHeaderYearBE(fp); setAltToBE(fp); },
-    onOpen:         (s, str, fp) => { setHeaderYearBE(fp); },
-    onMonthChange:  (s, str, fp) => { setHeaderYearBE(fp); },
-    onYearChange:   (s, str, fp) => { setHeaderYearBE(fp); },
-    onValueUpdate:  (s, str, fp) => { setHeaderYearBE(fp); setAltToBE(fp); }
+    onReady:        function(_, __, fp){ setHeaderYearBE(fp); setAltToBE(fp); },
+    onOpen:         function(_, __, fp){ setHeaderYearBE(fp); },
+    onMonthChange:  function(_, __, fp){ setHeaderYearBE(fp); },
+    onYearChange:   function(_, __, fp){ setHeaderYearBE(fp); },
+    onValueUpdate:  function(_, __, fp){ setHeaderYearBE(fp); setAltToBE(fp); }
   });
 });
 </script>
-
 
 
 
