@@ -1,907 +1,333 @@
 <!DOCTYPE html>
 <html lang="th">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>แจ้งทำประกันภัยโดรนเกษตร</title>
-    <!-- TailwindCSS via CDN for rapid styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Import Sarabun font for a clean and modern Thai typeface -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mockup — ระบบใบรับฝากของ | Power Transport 2022</title>
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Page switcher */
+    .screen{display:none}
+    .screen.active{display:block}
 
+    /* A4 sheet baseline for preview */
+    .sheet{width:210mm; min-height:297mm; margin:auto; background:white; box-shadow:0 1px 8px rgba(0,0,0,.06)}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/th.js"></script>
-
-	  
-    <style>
-      /* Custom error styling for invalid fields */
-      .error-message {
-        color: #dc2626; /* Tailwind red-600 */
-        font-size: 0.875rem;
-        margin-top: 0.25rem;
-      }
-      .error-input {
-        border-color: #dc2626;
-      }
-      /* Global font and blue themed UI adjustments */
-      body {
-        font-family: 'Sarabun', sans-serif;
-      }
-      /* Use a light blue background for the page */
-      body.bg-gray-100 {
-        background-color: #ebf8ff; /* Tailwind blue-100 */
-      }
-      /* Container background set to white to contrast with page background */
-      .container-bg {
-        background-color: #ffffff;
-      }
-      /* Fieldset border and legend coloring */
-      fieldset {
-        border-color: #93c5fd; /* Tailwind blue-300 */
-        background-color: #ffffff;
-      }
-      legend {
-        color: #1d4ed8; /* Tailwind blue-700 */
-      }
-      /* Labels use dark blue for readability */
-      label {
-        color: #1e3a8a; /* Tailwind blue-800 */
-      }
-      /* Inputs and selects with blue borders */
-      input[type="text"], input[type="number"], input[type="email"], input[type="tel"], input[type="date"], select {
-        border-color: #93c5fd;
-      }
-      /* Buttons with consistent blue theme */
-      button {
-        background-color: #1d4ed8;
-      }
-      button:hover {
-        background-color: #2563eb;
-      }
-
-      /* Notification styles */
-      #notification.success {
-        background-color: #d1fae5; /* green-100 */
-        color: #065f46; /* green-800 */
-      }
-      #notification.error {
-        background-color: #fee2e2; /* red-100 */
-        color: #991b1b; /* red-700 */
-      }
-    </style>
-  </head>
-  <body class="bg-gray-100 py-8">
-    <div class="max-w-5xl mx-auto container-bg p-8 shadow-lg rounded-lg">
-      <!-- โลโก้บริษัท -->
-      <img src="https://www.krapaotang.co.th/wp-content/uploads/2021/03/new_re.png" alt="Logo" class="mx-auto h-16 mb-4" />
-      <h1 class="text-3xl font-bold mb-6 text-center">แจ้งทำประกันภัยโดรนเกษตร</h1>
-      <form id="insuranceForm" novalidate>
-        <!-- ส่วนข้อมูลลำดับ แผนประกันภัย และวันเริ่มความคุ้มครองถูกตัดออกตามคำขอของผู้ใช้ -->
-        <!-- กลุ่มข้อมูลผู้เอาประกันภัย -->
-        <fieldset class="border border-blue-300 p-4 mb-6 rounded">
-          <legend class="font-semibold text-lg px-2">ข้อมูลผู้เอาประกันภัย</legend>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col">
-              <label for="insureprefix" class="mb-1 font-medium">คำนำหน้าชื่อ<span class="text-red-500">*</span></label>
-              <select id="insureprefix" name="insureprefix" class="w-full border rounded p-2">
-                <option value="">-- เลือกคำนำหน้า --</option>
-                <option value="นาย">นาย</option>
-                <option value="นาง">นาง</option>
-                <option value="นางสาว">นางสาว</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="insurename" class="mb-1 font-medium">ชื่อผู้เอาประกันภัย<span class="text-red-500">*</span></label>
-              <input type="text" id="insurename" name="insurename" class="w-full border rounded p-2" placeholder="ชื่อจริง" />
-            </div>
-            <div class="flex flex-col">
-              <label for="insuresurname" class="mb-1 font-medium">นามสกุลผู้เอาประกันภัย<span class="text-red-500">*</span></label>
-              <input type="text" id="insuresurname" name="insuresurname" class="w-full border rounded p-2" placeholder="นามสกุล" />
-            </div>
-            <div class="flex flex-col">
-              <label for="inscardtype" class="mb-1 font-medium">ประเภทบัตร<span class="text-red-500">*</span></label>
-              <select id="inscardtype" name="inscardtype" class="w-full border rounded p-2">
-                <option value="">-- เลือกประเภทบัตร --</option>
-                <option value="I">บัตรประชาชน (I)</option>
-                <option value="P">พาสปอร์ต (P)</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="insidcard" class="mb-1 font-medium">เลขที่บัตรประชาชน/Passport<span class="text-red-500">*</span></label>
-              <input type="text" id="insidcard" name="insidcard" class="w-full border rounded p-2" placeholder="กรอกเลขที่บัตร" />
-            </div>
-            <div class="flex flex-col">
-              <label for="insbirthdate" class="mb-1 font-medium">วันเกิด<span class="text-red-500">*</span></label>
-              <!-- ใช้ input type=date เพื่อให้สามารถเลือกวัน เดือน ปี ได้ -->
-              <input type="text" id="insbirthdate"
-       name="insbirthdate"
-       class="w-full border rounded p-2"
-       placeholder="วัน/เดือน/ปี พ.ศ." />
-            </div>
-            <div class="flex flex-col">
-              <label for="insemail" class="mb-1 font-medium">อีเมล์ผู้เอาประกัน<span class="text-red-500">*</span></label>
-              <input type="email" id="insemail" name="insemail" class="w-full border rounded p-2" placeholder="example@domain.com" />
-            </div>
-            <div class="flex flex-col">
-              <label for="insphone" class="mb-1 font-medium">เบอร์โทรศัพท์ผู้เอาประกันภัย<span class="text-red-500">*</span></label>
-              <input type="tel" id="insphone" name="insphone" class="w-full border rounded p-2" placeholder="0xxxxxxxxx" />
-            </div>
-          </div>
-        </fieldset>
-        <!-- กลุ่มข้อมูลที่อยู่ -->
-        <fieldset class="border border-blue-300 p-4 mb-6 rounded">
-          <legend class="font-semibold text-lg px-2">ข้อมูลที่อยู่ผู้เอาประกันภัย</legend>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col">
-              <label for="address1" class="mb-1 font-medium">ที่อยู่เลขที่<span class="text-red-500">*</span></label>
-              <input type="text" id="address1" name="address1" class="w-full border rounded p-2" placeholder="บ้านเลขที่" />
-            </div>
-            <div class="flex flex-col">
-              <label for="address2" class="mb-1 font-medium">อาคาร/หมู่บ้าน</label>
-              <input type="text" id="address2" name="address2" class="w-full border rounded p-2" placeholder="อาคาร/หมู่บ้าน" />
-            </div>
-            <div class="flex flex-col">
-              <label for="address3" class="mb-1 font-medium">ตรอก/ซอย</label>
-              <input type="text" id="address3" name="address3" class="w-full border rounded p-2" placeholder="ตรอก/ซอย" />
-            </div>
-            <div class="flex flex-col">
-              <label for="address4" class="mb-1 font-medium">ถนน</label>
-              <input type="text" id="address4" name="address4" class="w-full border rounded p-2" placeholder="ถนน" />
-            </div>
-            <!-- เรียงลำดับจังหวัดก่อน แล้วอำเภอ และสุดท้ายตำบล -->
-            <div class="flex flex-col">
-              <label for="province" class="mb-1 font-medium">จังหวัด<span class="text-red-500">*</span></label>
-              <select id="province" name="province" class="w-full border rounded p-2"></select>
-            </div>
-            <div class="flex flex-col">
-              <label for="amphur" class="mb-1 font-medium">อำเภอ<span class="text-red-500">*</span></label>
-              <!-- รายการอำเภอจะถูกสร้างแบบ dynamic ตามจังหวัดที่เลือก -->
-              <select id="amphur" name="amphur" class="w-full border rounded p-2" disabled>
-                <option value="">-- เลือกอำเภอ --</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="district" class="mb-1 font-medium">ตำบล<span class="text-red-500">*</span></label>
-              <!-- รายการตำบลจะถูกสร้างแบบ dynamic ตามอำเภอที่เลือก -->
-              <select id="district" name="district" class="w-full border rounded p-2" disabled>
-                <option value="">-- เลือกตำบล --</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="zipcode" class="mb-1 font-medium">รหัสไปรษณีย์<span class="text-red-500">*</span></label>
-              <input type="text" id="zipcode" name="zipcode" class="w-full border rounded p-2" placeholder="รหัสไปรษณีย์" readonly />
-            </div>
-          </div>
-        </fieldset>
-        <!-- กลุ่มข้อมูลเกี่ยวกับ Drone -->
-        <fieldset class="border border-blue-300 p-4 mb-6 rounded">
-          <legend class="font-semibold text-lg px-2">ข้อมูลเกี่ยวกับ Drone</legend>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col">
-              <label for="BrandModel" class="mb-1 font-medium">ยี่ห้อและรุ่น<span class="text-red-500">*</span></label>
-              <!-- เปลี่ยนเป็น select เพื่อให้ผู้ใช้เลือกยี่ห้อและรุ่นจากรายการ -->
-              <select id="BrandModel" name="BrandModel" class="w-full border rounded p-2">
-                <option value="">-- เลือกยี่ห้อและรุ่น --</option>
-                <option value="Dji T10">Dji T10</option>
-                <option value="Dji T20">Dji T20</option>
-                <option value="Dji T25">Dji T25</option>
-                <option value="Dji T30">Dji T30</option>
-                <option value="Dji T40">Dji T40</option>
-                <option value="Dji T50">Dji T50</option>
-                <option value="Dji T70">Dji T70</option>
-                <option value="Dji T100">Dji T100</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="Year" class="mb-1 font-medium">ปี Drone (ปีพ.ศ.)<span class="text-red-500">*</span></label>
-              <!-- เปลี่ยนเป็น select เพื่อให้เลือกปีได้ -->
-              <select id="Year" name="Year" class="w-full border rounded p-2">
-                <option value="">-- เลือกปี --</option>
-              </select>
-            </div>
-            <div class="flex flex-col">
-              <label for="SerialNo" class="mb-1 font-medium">หมายเลขประจำเครื่อง<span class="text-red-500">*</span></label>
-              <input type="text" id="SerialNo" name="SerialNo" class="w-full border rounded p-2" placeholder="Serial Number" />
-            </div>
-            <!-- ฟิลด์อัปโหลดรูปถ่ายหมายเลขโดรน (ไม่บังคับ) -->
-            <div class="flex flex-col">
-              <label for="droneSerialPhoto" class="mb-1 font-medium">รูปถ่ายหมายเลขโดรน<span class="text-red-500">*</span></label>
-              <input type="file" id="droneSerialPhoto" name="droneSerialPhoto" accept="image/*" class="w-full border rounded p-2" />
-            </div>
-            <!-- ส่วนเลือกน้ำหนักโดรนและแพ็คเกจจะย้ายไปอยู่ในกลุ่มข้อมูลแผนประกันภัย -->
-          </div>
-          <!-- จำนวนผู้บังคับโดรน และฟิลด์กรอกชื่อผู้บังคับแบบไดนามิก -->
-          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col">
-              <label for="numControllers" class="mb-1 font-medium">จำนวนผู้บังคับ<span class="text-red-500">*</span></label>
-              <select id="numControllers" name="numControllers" class="w-full border rounded p-2">
-                <option value="">-- เลือกจำนวนผู้บังคับ --</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-          </div>
-          <!-- คอนเทนเนอร์สำหรับสร้างฟิลด์ชื่อผู้บังคับตามจำนวนที่เลือก -->
-          <div id="controllerInputs" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </fieldset>
-
-        <!-- กลุ่มข้อมูลแผนประกันภัย -->
-        <fieldset class="border border-blue-300 p-4 mb-6 rounded">
-          <legend class="font-semibold text-lg px-2">ข้อมูลแผนประกันภัย</legend>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col">
-              <label for="planSelect" class="mb-1 font-medium">แผนประกันภัย<span class="text-red-500">*</span></label>
-              <!-- รายการแผนประกันภัยจะขึ้นอยู่กับยี่ห้อและรุ่นที่เลือก -->
-              <select id="planSelect" name="planSelect" class="w-full border rounded p-2" disabled>
-                <option value="">-- เลือกแผนประกันภัย --</option>
-              </select>
-            </div>
-          </div>
-        </fieldset>
-
-        <div class="mt-6 flex justify-center gap-4">
-  <!-- ปุ่มส่ง -->
-  <button type="submit"
-          class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
-    ส่งข้อมูล
-  </button>
-
-  <!-- ปุ่มยกเลิก -->
-  <button type="button" id="resetBtn"
-          class="px-6 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded">
-    ยกเลิก
-  </button>
-</div>
-        <!-- Notification area for success/error messages -->
-        <div id="notification" class="fixed top-5 right-5 z-50 hidden px-4 py-2 rounded shadow"></div>
-      </form>
+    /* Print rules */
+    @page { size: A4; margin: 12mm; }
+    @media print{
+      /* keep content visible; only hide toolbars/buttons */
+      .no-print{ display:none !important; }
+      body{ background:white; }
+      .sheet{ box-shadow:none; margin:0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+  <!-- Top bar -->
+  <header class="no-print sticky top-0 z-10 bg-white border-b">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+      <div class="font-bold text-xl">Power Transport 2022</div>
+      <nav class="ml-auto flex gap-2">
+        <button class="px-3 py-1.5 rounded border" onclick="show('list')">รายการ</button>
+        <button class="px-3 py-1.5 rounded border" onclick="show('form')">สร้าง/แก้ไข</button>
+        <button class="px-3 py-1.5 rounded border" onclick="show('detail')">รายละเอียด</button>
+        <button class="px-3 py-1.5 rounded border" onclick="show('print')">พิมพ์</button>
+      </nav>
     </div>
-    <!-- JavaScript for dynamic behavior and validation -->
-    <!-- โหลดข้อมูลที่อยู่แบบจัดโครงสร้างจากไฟล์ address_data.js -->
-    <script src="address_data.js"></script>
-    <script>
-      // Mapping of provinces to a representative postal code.
-      // Derived from an open dataset that lists postal codes for each Thai province【783817973408927†L1388-L1496】.
-      const provinceZip = {
-        "กระบี่": "81000",
-        "กรุงเทพมหานคร": "10200",
-        "กาญจนบุรี": "71000",
-        "กาฬสินธุ์": "46000",
-        "กำแพงเพชร": "62000",
-        "ขอนแก่น": "40000",
-        "จันทบุรี": "22000",
-        "ฉะเชิงเทรา": "24000",
-        "ชลบุรี": "20000",
-        "ชัยนาท": "17000",
-        "ชัยภูมิ": "36000",
-        "ชุมพร": "86000",
-        "ตรัง": "92000",
-        "ตราด": "23000",
-        "ตาก": "63000",
-        "นครนายก": "26000",
-        "นครปฐม": "73000",
-        "นครพนม": "48000",
-        "นครราชสีมา": "30000",
-        "นครศรีธรรมราช": "80000",
-        "นครสวรรค์": "60000",
-        "นนทบุรี": "11000",
-        "นราธิวาส": "96000",
-        "น่าน": "55000",
-        "บึงกาฬ": "38000",
-        "บุรีรัมย์": "31000",
-        "ปทุมธานี": "12000",
-        "ประจวบคีรีขันธ์": "77000",
-        "ปราจีนบุรี": "25000",
-        "ปัตตานี": "94000",
-        "พระนครศรีอยุธยา": "13000",
-        "พะเยา": "56000",
-        "พังงา": "82000",
-        "พัทลุง": "93000",
-        "พิจิตร": "66000",
-        "พิษณุโลก": "65000",
-        "ภูเก็ต": "83000",
-        "มหาสารคาม": "44000",
-        "มุกดาหาร": "49000",
-        "ยะลา": "95000",
-        "ยโสธร": "35000",
-        "ระนอง": "85000",
-        "ระยอง": "21000",
-        "ราชบุรี": "70000",
-        "ร้อยเอ็ด": "45000",
-        "ลพบุรี": "15000",
-        "ลำปาง": "52000",
-        "ลำพูน": "51000",
-        "ศรีสะเกษ": "33000",
-        "สกลนคร": "47000",
-        "สงขลา": "90000",
-        "สตูล": "91000",
-        "สมุทรปราการ": "10270",
-        "สมุทรสงคราม": "75000",
-        "สมุทรสาคร": "74000",
-        "สระบุรี": "18000",
-        "สระแก้ว": "27000",
-        "สิงห์บุรี": "16000",
-        "สุพรรณบุรี": "72000",
-        "สุราษฎร์ธานี": "84000",
-        "สุรินทร์": "32000",
-        "สุโขทัย": "64000",
-        "หนองคาย": "43000",
-        "หนองบัวลำภู": "39000",
-        "อำนาจเจริญ": "37000",
-        "อุดรธานี": "41000",
-        "อุตรดิตถ์": "53000",
-        "อุทัยธานี": "61000",
-        "อุบลราชธานี": "34000",
-        "อ่างทอง": "14000",
-        "เชียงราย": "57000",
-        "เชียงใหม่": "50200",
-        "เพชรบุรี": "76000",
-        "เพชรบูรณ์": "67000",
-        "เลย": "42000",
-        "แพร่": "54000",
-        "แม่ฮ่องสอน": "58000",
-      };
+  </header>
 
-      // ข้อมูลที่อยู่แบบละเอียด (จังหวัด-อำเภอ-ตำบล-รหัสไปรษณีย์) มาจากไฟล์ address_data.js
-      // addressData จะถูกประกาศในไฟล์ address_data.js
-      const addressDataLoaded = (typeof addressData !== 'undefined') ? addressData : {};
+  <main id="app" class="max-w-6xl mx-auto p-4 space-y-6">
 
-      // ดึง DOM elements สำหรับที่อยู่
-      const provinceSelect = document.getElementById('province');
-      const amphurSelect = document.getElementById('amphur');
-      const districtSelect = document.getElementById('district');
-      const zipcodeInput = document.getElementById('zipcode');
+    <!-- LIST -->
+    <section id="screen-list" class="screen active">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold">รายการเอกสาร</h2>
+        <div class="flex gap-2">
+          <input placeholder="ค้นหาเลขที่/ผู้รับ/ปลายทาง" class="px-3 py-2 border rounded w-72" />
+          <button class="px-3 py-2 rounded bg-blue-600 text-white" onclick="show('form')">+ สร้างใบใหม่</button>
+        </div>
+      </div>
+      <div class="bg-white border rounded-lg overflow-hidden shadow-sm">
+        <table class="w-full text-sm">
+          <thead class="bg-slate-100">
+            <tr class="text-left">
+              <th class="p-3">เลขที่</th>
+              <th class="p-3">วันที่</th>
+              <th class="p-3">ผู้รับสินค้า</th>
+              <th class="p-3">ปลายทาง</th>
+              <th class="p-3 text-right">ค่าระวาง (฿)</th>
+              <th class="p-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t hover:bg-slate-50">
+              <td class="p-3">3286</td>
+              <td class="p-3">18/08/2025</td>
+              <td class="p-3">สามารถ E (ชลบุรี)</td>
+              <td class="p-3">สงขลา</td>
+              <td class="p-3 text-right">500.00</td>
+              <td class="p-3 text-right space-x-2 whitespace-nowrap">
+                <button class="px-2 py-1 border rounded" onclick="show('detail')">ดู</button>
+                <button class="px-2 py-1 border rounded" onclick="show('form')">แก้ไข</button>
+                <button class="px-2 py-1 border rounded" onclick="show('print')">พิมพ์</button>
+              </td>
+            </tr>
+            <tr class="border-t hover:bg-slate-50">
+              <td class="p-3">3287</td>
+              <td class="p-3">18/08/2025</td>
+              <td class="p-3">บจก. เมืองทองโลจิสติกส์</td>
+              <td class="p-3">นครปฐม</td>
+              <td class="p-3 text-right">1,200.00</td>
+              <td class="p-3 text-right space-x-2 whitespace-nowrap">
+                <button class="px-2 py-1 border rounded" onclick="show('detail')">ดู</button>
+                <button class="px-2 py-1 border rounded" onclick="show('form')">แก้ไข</button>
+                <button class="px-2 py-1 border rounded" onclick="show('print')">พิมพ์</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-      // ดึง DOM elements สำหรับปีและผู้บังคับโดรน
-      const yearSelect = document.getElementById('Year');
-      const numControllersSelect = document.getElementById('numControllers');
-      const controllerContainer = document.getElementById('controllerInputs');
+    <!-- FORM (Create/Edit) -->
+    <section id="screen-form" class="screen">
+      <h2 class="text-lg font-semibold mb-3">ฟอร์มใบรับฝากสินค้า</h2>
+      <div class="grid lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 bg-white border rounded-lg p-4 shadow-sm">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-slate-600">เล่มที่</label>
+              <input class="w-full border rounded px-3 py-2" placeholder="066" />
+            </div>
+            <div>
+              <label class="block text-sm text-slate-600">เลขที่</label>
+              <input class="w-full border rounded px-3 py-2" placeholder="3286" />
+            </div>
+            <div>
+              <label class="block text-sm text-slate-600">วันที่</label>
+              <input type="date" class="w-full border rounded px-3 py-2" value="2025-08-18" />
+            </div>
+          </div>
 
-      // ดึง DOM elements สำหรับรุ่นและแผนประกันภัย
-      const brandModelSelect = document.getElementById('BrandModel');
-      const planSelect = document.getElementById('planSelect');
+          <hr class="my-4" />
 
-      // ดึง DOM element สำหรับรูปถ่ายหมายเลขโดรน
-      const droneSerialPhotoInput = document.getElementById('droneSerialPhoto');
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="font-medium">ผู้รับสินค้า</h3>
+              <label class="block text-sm text-slate-600 mt-2">ชื่อ</label>
+              <input class="w-full border rounded px-3 py-2" placeholder="สามารถ E (ชลบุรี)" />
+              <label class="block text-sm text-slate-600 mt-2">ที่อยู่</label>
+              <textarea class="w-full border rounded px-3 py-2" rows="2" placeholder="—"></textarea>
+              <label class="block text-sm text-slate-600 mt-2">โทรศัพท์</label>
+              <input class="w-full border rounded px-3 py-2" placeholder="—" />
+            </div>
+            <div>
+              <h3 class="font-medium">ผู้ส่งสินค้า</h3>
+              <label class="block text-sm text-slate-600 mt-2">ชื่อ</label>
+              <input class="w-full border rounded px-3 py-2" placeholder="—" />
+              <label class="block text-sm text-slate-600 mt-2">ที่อยู่</label>
+              <textarea class="w-full border rounded px-3 py-2" rows="2" placeholder="—"></textarea>
+              <label class="block text-sm text-slate-600 mt-2">โทรศัพท์</label>
+              <input class="w-full border rounded px-3 py-2" placeholder="—" />
+            </div>
+          </div>
 
-      // ฟังก์ชันแปลงไฟล์เป็น Base64 (data URL)
-      function toBase64(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = error => reject(error);
-        });
-      }
+          <hr class="my-4" />
 
-      // ข้อมูลแผนประกันภัยตามยี่ห้อและรุ่น
-      const packagesByModel = {
-        'Dji T10': [
-          { price: '2370', company: 'บริษัท เจมาร์ท' },
-          { price: '2820', company: 'บริษัท เจมาร์ท' },
-          { price: '2329', company: 'บริษัท ไทยพัฒนา' },
-          { price: '2429', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-          { price: '2090', company: 'บริษัท ทิพย' },
-          { price: '2490', company: 'บริษัท ทิพย' },
-        ],
-        'Dji T20': [
-          { price: '2370', company: 'บริษัท เจมาร์ท' },
-          { price: '2820', company: 'บริษัท เจมาร์ท' },
-          { price: '2329', company: 'บริษัท ไทยพัฒนา' },
-          { price: '2429', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-          { price: '2090', company: 'บริษัท ทิพย' },
-          { price: '2490', company: 'บริษัท ทิพย' },
-        ],
-        'Dji T25': [
-          { price: '2370', company: 'บริษัท เจมาร์ท' },
-          { price: '2820', company: 'บริษัท เจมาร์ท' },
-          { price: '2329', company: 'บริษัท ไทยพัฒนา' },
-          { price: '2429', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-          { price: '2090', company: 'บริษัท ทิพย' },
-          { price: '2490', company: 'บริษัท ทิพย' },
-        ],
-        'Dji T30': [
-          { price: '4320', company: 'บริษัท เจมาร์ท' },
-          { price: '4920', company: 'บริษัท เจมาร์ท' },
-          { price: '3729', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3829', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-          { price: '2090', company: 'บริษัท ทิพย' },
-          { price: '2490', company: 'บริษัท ทิพย' },
-        ],
-        'Dji T40': [
-          { price: '4320', company: 'บริษัท เจมาร์ท' },
-          { price: '4920', company: 'บริษัท เจมาร์ท' },
-          { price: '3729', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3829', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-          { price: '2090', company: 'บริษัท ทิพย' },
-          { price: '2490', company: 'บริษัท ทิพย' },
-        ],
-        'Dji T50': [
-          { price: '4320', company: 'บริษัท เจมาร์ท' },
-          { price: '4920', company: 'บริษัท เจมาร์ท' },
-          { price: '3729', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3829', company: 'บริษัท ไทยพัฒนา' },
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-          { price: '2090', company: 'บริษัท ทิพย' },
-          { price: '2490', company: 'บริษัท ทิพย' },
-        ],
-        'Dji T70': [
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-        ],
-        'Dji T100': [
-          { price: '3000', company: 'บริษัท กรุงเทพ' },
-        ],
-      };
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-slate-600">รายละเอียดสินค้า</label>
+              <textarea class="w-full border rounded px-3 py-2" rows="3" placeholder="อะไหล่"></textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm text-slate-600">จำนวน (ชิ้น)</label>
+                <input class="w-full border rounded px-3 py-2" type="number" value="1" />
+              </div>
+              <div>
+                <label class="block text-sm text-slate-600">ค่าระวาง (บาท)</label>
+                <input class="w-full border rounded px-3 py-2" type="number" value="500" />
+              </div>
+              <div>
+                <label class="block text-sm text-slate-600">ต้นทาง</label>
+                <input class="w-full border rounded px-3 py-2" placeholder="—" />
+              </div>
+              <div>
+                <label class="block text-sm text-slate-600">ปลายทาง</label>
+                <input class="w-full border rounded px-3 py-2" placeholder="—" />
+              </div>
+            </div>
+          </div>
 
-      // เมื่อเลือกยี่ห้อและรุ่น ให้แสดงรายการแผนประกันภัยที่เกี่ยวข้อง
-      function updatePlanOptions() {
-        const model = brandModelSelect.value;
-        // รีเซ็ตแผนประกันภัย
-        planSelect.innerHTML = '<option value="">-- เลือกแผนประกันภัย --</option>';
-        if (packagesByModel[model]) {
-          planSelect.disabled = false;
-          packagesByModel[model].forEach(pkg => {
-            const option = document.createElement('option');
-            option.value = `${pkg.price}|${pkg.company}`;
-            option.textContent = `${pkg.price} บาท - ${pkg.company}`;
-            planSelect.appendChild(option);
-          });
-        } else {
-          planSelect.disabled = true;
-        }
-      }
+          <div class="flex items-center gap-6 mt-4">
+            <label class="inline-flex items-center gap-2 text-sm"><input type="checkbox" class="accent-blue-600"> ประกาศมูลค่าสินค้า</label>
+            <label class="inline-flex items-center gap-2 text-sm"><input type="checkbox" class="accent-blue-600"> สินค้าไม่จำกัดจ่ายค่า</label>
+          </div>
 
-      // ผูกอีเวนต์เมื่อเลือกยี่ห้อและรุ่น
-      brandModelSelect.addEventListener('change', updatePlanOptions);
+          <label class="block text-sm text-slate-600 mt-4">หมายเหตุ</label>
+          <textarea class="w-full border rounded px-3 py-2" rows="2" placeholder="เงื่อนไขการรับผิดชอบ…"></textarea>
 
-      // URL สำหรับ webhook ทดสอบ (เปลี่ยนเป็น production URL เมื่อต้องการใช้งานจริง)
-      const webhookURL = 'https://techs.co.th/webhook/d6358ab9-165a-4f51-8b17-dce91d5bc9e4';
+          <div class="mt-6 flex gap-2">
+            <button class="px-4 py-2 rounded bg-blue-600 text-white">บันทึก</button>
+            <button class="px-4 py-2 rounded border" onclick="show('list')">ยกเลิก</button>
+            <button class="px-4 py-2 rounded border" onclick="show('print')">ดูแบบพิมพ์</button>
+          </div>
+        </div>
 
-      // ฟังก์ชันแสดงข้อความแจ้งเตือน (success/error)
-      function showNotification(message, type) {
-        const notificationEl = document.getElementById('notification');
-        notificationEl.textContent = message;
-        // เอาคลาสออกก่อนแล้วใส่ใหม่
-        notificationEl.classList.remove('hidden', 'success', 'error');
-        notificationEl.classList.add(type);
-        // หลังจาก 4 วินาทีให้ซ่อนข้อความ
-        setTimeout(() => {
-          notificationEl.classList.add('hidden');
-        }, 4000);
-      }
+        <aside class="bg-white border rounded-lg p-4 shadow-sm">
+          <div class="text-sm text-slate-500">พรีวิว</div>
+          <div class="mt-2 border rounded p-3">
+            <div class="font-semibold">#3286</div>
+            <div class="text-sm">สามารถ E (ชลบุรี)</div>
+            <div class="text-sm">ปลายทาง: สงขลา</div>
+            <div class="text-right font-medium">฿ 500.00</div>
+          </div>
+          <div class="mt-4 text-xs text-slate-500">* ส่วนนี้มีไว้ให้ลูกค้าเห็นภาพรวมก่อนพิมพ์</div>
+        </aside>
+      </div>
+    </section>
 
-      // เติมรายการปี (ตั้งแต่ปี 2000 ถึงปีปัจจุบัน)
-       function populateYearOptions() {
-    const yearSelect = document.getElementById('Year');   // <-- query หลัง DOM สร้าง
-    const currentBE   = new Date().getFullYear() + 543;   // ปี พ.ศ. ปัจจุบัน
-    yearSelect.innerHTML = '<option value="">-- เลือกปี --</option>';
+    <!-- DETAIL -->
+    <section id="screen-detail" class="screen">
+      <h2 class="text-lg font-semibold mb-3">รายละเอียดเอกสาร</h2>
+      <div class="bg-white border rounded-lg shadow-sm">
+        <div class="p-4 grid md:grid-cols-3 gap-4">
+          <div>
+            <div class="text-sm text-slate-500">เล่มที่</div>
+            <div class="font-medium">066</div>
+          </div>
+          <div>
+            <div class="text-sm text-slate-500">เลขที่</div>
+            <div class="font-medium">3286</div>
+          </div>
+          <div>
+            <div class="text-sm text-slate-500">วันที่</div>
+            <div class="font-medium">18/08/2025</div>
+          </div>
+        </div>
+        <hr/>
+        <div class="p-4 grid md:grid-cols-2 gap-6">
+          <div>
+            <div class="font-medium">ผู้รับสินค้า</div>
+            <div class="text-sm">สามารถ E (ชลบุรี)</div>
+            <div class="text-sm text-slate-500">โทร: —</div>
+          </div>
+          <div>
+            <div class="font-medium">ผู้ส่งสินค้า</div>
+            <div class="text-sm">—</div>
+            <div class="text-sm text-slate-500">โทร: —</div>
+          </div>
+          <div class="md:col-span-2">
+            <div class="text-sm text-slate-500">รายละเอียดสินค้า</div>
+            <div>อะไหล่</div>
+          </div>
+        </div>
+        <hr/>
+        <div class="p-4 grid md:grid-cols-4 gap-4 text-sm">
+          <div><span class="text-slate-500">จำนวน</span><div class="font-medium">1 ชิ้น</div></div>
+          <div><span class="text-slate-500">ต้นทาง</span><div class="font-medium">—</div></div>
+          <div><span class="text-slate-500">ปลายทาง</span><div class="font-medium">สงขลา</div></div>
+          <div class="text-right md:text-right"><span class="text-slate-500">ค่าระวาง</span><div class="font-semibold">฿ 500.00</div></div>
+        </div>
+        <div class="p-4 flex gap-2 border-t bg-slate-50">
+          <button class="px-3 py-2 rounded border" onclick="show('form')">แก้ไข</button>
+          <button class="px-3 py-2 rounded border" onclick="show('print')">พิมพ์</button>
+        </div>
+      </div>
+    </section>
 
-    for (let i = 0; i < 5; i++) {                         // 5 ปี รวมปีล่าสุด
-      const be = currentBE - i;                           // 2568-2564 (ถ้าปีนี้ 2568)
-      yearSelect.insertAdjacentHTML(
-        'beforeend',
-        `<option value="${be}">${be}</option>`
-      );
+    <!-- PRINT PREVIEW (A4) -->
+    <section id="screen-print" class="screen">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold">ตัวอย่างแบบพิมพ์ (A4)</h2>
+        <div class="no-print flex gap-2">
+          <button class="px-3 py-2 rounded border" onclick="window.print()">พิมพ์</button>
+          <button class="px-3 py-2 rounded border" onclick="show('list')">กลับหน้ารายการ</button>
+        </div>
+      </div>
+      <div class="sheet bg-[#dff0ff] border rounded-md shadow overflow-hidden">
+        <div class="p-5 border-b flex items-start gap-4 bg-[#d5ecff]">
+          <div class="text-2xl font-bold text-slate-700">Power Transport 2022</div>
+          <div class="ml-auto text-right">
+            <div>เล่มที่: <span class="font-semibold">066</span></div>
+            <div>เลขที่: <span class="font-semibold">3286</span></div>
+          </div>
+        </div>
+        <div class="p-5 space-y-3 text-sm">
+          <div class="grid grid-cols-2 gap-4">
+            <div>วันที่: <span class="font-semibold">18-08-2025</span></div>
+          </div>
+
+          <!-- Parties -->
+          <div class="grid grid-cols-2 gap-6">
+            <div class="border p-3 bg-white/60">
+              <div class="font-medium">ผู้รับสินค้า</div>
+              <div>สามารถ E (ชลบุรี)</div>
+              <div class="text-slate-600">โทร: —</div>
+              <div class="text-slate-600">ที่อยู่: —</div>
+            </div>
+            <div class="border p-3 bg-white/60">
+              <div class="font-medium">ผู้ส่งสินค้า</div>
+              <div>—</div>
+              <div class="text-slate-600">โทร: —</div>
+              <div class="text-slate-600">ที่อยู่: —</div>
+            </div>
+          </div>
+
+          <!-- Cargo table -->
+          <table class="w-full text-sm border mt-2">
+            <thead class="bg-white/70">
+              <tr>
+                <th class="border p-2 w-6 text-center">#</th>
+                <th class="border p-2">รายการสินค้า</th>
+                <th class="border p-2 w-20 text-center">จำนวน</th>
+                <th class="border p-2 w-36">ต้นทาง</th>
+                <th class="border p-2 w-36">ปลายทาง</th>
+                <th class="border p-2 w-28 text-right">ค่าระวาง</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border p-2 text-center">1</td>
+                <td class="border p-2">อะไหล่</td>
+                <td class="border p-2 text-center">1</td>
+                <td class="border p-2">—</td>
+                <td class="border p-2">สงขลา</td>
+                <td class="border p-2 text-right">500.00</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="grid grid-cols-3 gap-6 mt-2">
+            <label class="inline-flex items-center gap-2"><input type="checkbox" checked> ประกาศมูลค่าสินค้า</label>
+            <label class="inline-flex items-center gap-2"><input type="checkbox"> สินค้าไม่จำกัดจ่ายค่า</label>
+            <div class="text-right"><span class="text-slate-600">รวมสุทธิ</span> <span class="font-semibold">฿ 500.00</span></div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-6">
+            <div class="text-sm text-slate-600">เงื่อนไข: สินค้าที่แตก/บุบจากการขนส่งชำระค่าสินไหมสูงสุดไม่เกิน 500 บาท (ตัวอย่างข้อความ)</div>
+            <div class="text-right">
+              <div>ผู้รับสินค้า (ลงชื่อ) ……………………………………….</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Separate print-only node -->
+  <div id="print-sheet" style="display:none">
+    <!-- We reuse the same markup via cloning at runtime if needed -->
+  </div>
+
+  <script>
+    function show(name){
+      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))
+      document.getElementById('screen-'+name).classList.add('active')
+      window.scrollTo({top:0, behavior:'smooth'})
     }
-  }
-		populateYearOptions();
-
-      // เมื่อเลือกจำนวนผู้บังคับ ให้สร้างฟิลด์กรอกชื่อ
-      function updateControllerFields () {
-  const count = parseInt(numControllersSelect.value);
-  controllerContainer.innerHTML = '';
-  if (!isNaN(count) && count > 0) {
-    for (let i = 1; i <= count; i++) {
-      const div = document.createElement('div');
-      div.className = 'flex flex-col';
-
-      /* --- ชื่อผู้บังคับ (บังคับ) --- */
-      const nameLabel = document.createElement('label');
-      nameLabel.className = 'mb-1 font-medium';
-      nameLabel.setAttribute('for', 'NameControl' + i);
-      nameLabel.innerHTML = `ชื่อผู้บังคับคนที่ ${i} <span class="text-red-500">*</span>`;     
-      const nameInput = document.createElement('input');
-      nameInput.type = 'text';
-      nameInput.id = 'NameControl' + i;
-      nameInput.name = 'NameControl' + i;
-      nameInput.required = true;                                         
-      nameInput.className = 'w-full border rounded p-2';
-      div.appendChild(nameLabel);
-      div.appendChild(nameInput);
-
-      /* --- รูปถ่ายบัตรประชาชน (บังคับ) --- */
-      const fileLabel = document.createElement('label');
-      fileLabel.className = 'mb-1 font-medium';
-      fileLabel.setAttribute('for', 'IDCardPhoto' + i);
-      fileLabel.innerHTML = `รูปถ่ายบัตรประชาชนคนที่ ${i} <span class="text-red-500">*</span>`;
-      const fileInput = document.createElement('input');
-      fileInput.type = 'file';
-      fileInput.id = 'IDCardPhoto' + i;
-      fileInput.name = 'IDCardPhoto' + i;
-      fileInput.accept = 'image/*';
-      fileInput.required = true;                                         
-      fileInput.className = 'w-full border rounded p-2';
-      div.appendChild(fileLabel);
-      div.appendChild(fileInput);
-
-      controllerContainer.appendChild(div);
-    }
-  }
-}
-
-
-      // ผูกอีเวนต์สำหรับการเปลี่ยนจำนวนผู้บังคับ
-      numControllersSelect.addEventListener('change', updateControllerFields);
-
-      // เติมรายชื่อจังหวัดลงใน select (ใช้ข้อมูล addressDataLoaded)
-      // เริ่มต้นด้วยตัวเลือก placeholder "-- เลือกจังหวัด --"
-      provinceSelect.innerHTML = '<option value="">-- เลือกจังหวัด --</option>';
-      for (const prov of Object.keys(addressDataLoaded).sort()) {
-        const option = document.createElement('option');
-        option.value = prov;
-        option.textContent = prov;
-        provinceSelect.appendChild(option);
-      }
-
-      // เมื่อเลือกจังหวัด ให้แสดงรายการอำเภอ (amphur) และเปิด/ปิดการเลือกตามลำดับ
-      function updateAmphur() {
-        const provName = provinceSelect.value;
-        // รีเซ็ตอำเภอและตำบล พร้อมปิดการเลือก
-        amphurSelect.innerHTML = '<option value="">-- เลือกอำเภอ --</option>';
-        districtSelect.innerHTML = '<option value="">-- เลือกตำบล --</option>';
-        zipcodeInput.value = '';
-        if (provName && addressDataLoaded[provName]) {
-          // เปิดการเลือกอำเภอเมื่อเลือกจังหวัดแล้ว
-          amphurSelect.disabled = false;
-          districtSelect.disabled = true;
-          const districts = Object.keys(addressDataLoaded[provName]).sort();
-          districts.forEach(dist => {
-            const option = document.createElement('option');
-            option.value = dist;
-            option.textContent = dist;
-            amphurSelect.appendChild(option);
-          });
-        } else {
-          // หากยังไม่เลือกจังหวัด ให้ปิดอำเภอและตำบล
-          amphurSelect.disabled = true;
-          districtSelect.disabled = true;
-        }
-      }
-
-      // เมื่อเลือกอำเภอ ให้แสดงรายการตำบล (district) และจัดการเปิด/ปิดการเลือก
-      function updateDistricts() {
-        const provName = provinceSelect.value;
-        const amphurName = amphurSelect.value;
-        districtSelect.innerHTML = '<option value="">-- เลือกตำบล --</option>';
-        zipcodeInput.value = '';
-        if (provName && amphurName && addressDataLoaded[provName] && addressDataLoaded[provName][amphurName]) {
-          districtSelect.disabled = false;
-          const subdistricts = Object.keys(addressDataLoaded[provName][amphurName]).sort();
-          subdistricts.forEach(sub => {
-            const option = document.createElement('option');
-            option.value = sub;
-            option.textContent = sub;
-            districtSelect.appendChild(option);
-          });
-        } else {
-          districtSelect.disabled = true;
-        }
-      }
-
-      // เมื่อเลือกตำบล ให้ตั้งค่ารหัสไปรษณีย์
-      function updateZipFromSelection() {
-        const provName = provinceSelect.value;
-        const amphurName = amphurSelect.value;
-        const subName = districtSelect.value;
-        if (provName && amphurName && subName && addressDataLoaded[provName] && addressDataLoaded[provName][amphurName]) {
-          const zip = addressDataLoaded[provName][amphurName][subName];
-          zipcodeInput.value = zip || '';
-        } else {
-          zipcodeInput.value = '';
-        }
-      }
-
-      // เชื่อมต่ออีเวนต์ของ dropdown
-      provinceSelect.addEventListener('change', () => {
-        updateAmphur();
-      });
-      amphurSelect.addEventListener('change', () => {
-        updateDistricts();
-      });
-      districtSelect.addEventListener('change', () => {
-        updateZipFromSelection();
-      });
-
-
-
-
-      // Validation helpers
-      function showError(element, message) {
-        element.classList.add('error-input');
-        let msgEl = element.parentElement.querySelector('.error-message');
-        if (!msgEl) {
-          msgEl = document.createElement('div');
-          msgEl.className = 'error-message';
-          element.parentElement.appendChild(msgEl);
-        }
-        msgEl.textContent = message;
-      }
-      function clearError(element) {
-        element.classList.remove('error-input');
-        const msgEl = element.parentElement.querySelector('.error-message');
-        if (msgEl) {
-          msgEl.textContent = '';
-        }
-      }
-
-      // Regular expressions for validation
-      const emailPattern = /^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-      const phonePattern = /^0\d{8,9}$/;
-      const idCardPattern = /^\d{13}$/;
-      const passportPattern = /^[A-Za-z0-9]{6,15}$/;
-
-      // Main validation on form submit
-      document.getElementById('insuranceForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
-        let valid = true;
-        // Clear previous errors
-        const fields = [
-          'insureprefix', 'insurename', 'insuresurname', 'inscardtype',
-          'insidcard', 'insbirthdate', 'insemail', 'insphone',
-          'address1', 'address2', 'address3', 'address4',
-          'district', 'amphur', 'province', 'zipcode',
-          'BrandModel', 'Year', 'SerialNo', 'planSelect', 'numControllers', 'droneSerialPhoto'
-        ];
-        fields.forEach(id => {
-          const el = document.getElementById(id);
-          clearError(el);
-        });
-        // Validate each required field
-        function required(id, message) {
-          const el = document.getElementById(id);
-          if (!el.value || el.value.trim() === '') {
-            showError(el, message);
-            valid = false;
-          }
-        }
-        // ไม่ต้องตรวจสอบลำดับที่, แผนประกันภัย และวันเริ่มความคุ้มครอง เนื่องจากถูกตัดออก
-        required('insureprefix', 'กรุณาเลือกคำนำหน้า');
-        required('insurename', 'กรุณากรอกชื่อ');
-        required('insuresurname', 'กรุณากรอกนามสกุล');
-        required('inscardtype', 'กรุณาเลือกประเภทบัตร');
-        required('insidcard', 'กรุณากรอกเลขบัตร');
-        required('insbirthdate', 'กรุณากรอกวันเกิด');
-        required('insemail', 'กรุณากรอกอีเมล์');
-        required('insphone', 'กรุณากรอกเบอร์โทรศัพท์');
-        required('address1', 'กรุณากรอกบ้านเลขที่');
-        required('district', 'กรุณาเลือกตำบล');
-        required('amphur', 'กรุณาเลือกอำเภอ');
-        required('province', 'กรุณาเลือกจังหวัด');
-        required('zipcode', 'กรุณากรอกรหัสไปรษณีย์');
-        required('BrandModel', 'กรุณาเลือกยี่ห้อและรุ่น');
-        required('Year', 'กรุณาเลือกปีของโดรน');
-        required('SerialNo', 'กรุณากรอกหมายเลขประจำเครื่อง');
-        required('planSelect', 'กรุณาเลือกแผนประกันภัย');
-	required('droneSerialPhoto','กรุณาอัปโหลดรูปถ่ายหมายเลขโดรน');
-        // การตรวจสอบชื่อผู้บังคับจะทำแบบไดนามิกด้านล่าง
-
-        // Additional pattern validations
-        // สำหรับ input type=date ไม่จำเป็นต้องตรวจสอบด้วย regex; browser จัดการรูปแบบให้แล้ว
-        const emailEl = document.getElementById('insemail');
-        if (emailEl.value && !emailPattern.test(emailEl.value)) {
-          showError(emailEl, 'รูปแบบอีเมล์ไม่ถูกต้อง');
-          valid = false;
-        }
-        const phoneEl = document.getElementById('insphone');
-        if (phoneEl.value && !phonePattern.test(phoneEl.value)) {
-          showError(phoneEl, 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง');
-          valid = false;
-        }
-        const idType = document.getElementById('inscardtype').value;
-        const idEl = document.getElementById('insidcard');
-        if (idType === 'I') {
-          if (idEl.value && !idCardPattern.test(idEl.value)) {
-            showError(idEl, 'เลขที่บัตรประชาชนต้องเป็นตัวเลข 13 หลัก');
-            valid = false;
-          }
-        } else if (idType === 'P') {
-          if (idEl.value && !passportPattern.test(idEl.value)) {
-            showError(idEl, 'หมายเลขพาสปอร์ตต้องมีอักขระ 6-15 ตัว');
-            valid = false;
-          }
-        }
-        // Validate Year as 4-digit year
-        const yearEl = document.getElementById('Year');
-        if (yearEl.value && !(yearEl.value.length === 4 && !isNaN(yearEl.value))) {
-          showError(yearEl, 'ปีต้องเป็นเลข 4 หลัก');
-          valid = false;
-        }
-        // Validate dynamic controller names
-        const numCtrl = parseInt(document.getElementById('numControllers').value);
-if (!isNaN(numCtrl) && numCtrl > 0) {
-  for (let i = 1; i <= numCtrl; i++) {
-    const nameEl = document.getElementById('NameControl' + i);
-    const photoEl = document.getElementById('IDCardPhoto' + i);
-
-    if (!nameEl.value.trim()) {
-      showError(nameEl, 'กรุณากรอกชื่อผู้บังคับคนที่ ' + i);
-      valid = false;
-    }
-    if (!(photoEl.files && photoEl.files.length > 0)) {
-      showError(photoEl, 'กรุณาอัปโหลดรูปบัตรประชาชนคนที่ ' + i);
-      valid = false;
-    }
-  }
-}
-        // If valid, send data to n8n webhook via POST
-        if (valid) {
-          // รวบรวมข้อมูลจากฟอร์มลงในอ็อบเจ็กต์
-          const formDataObj = {};
-          // เก็บค่าจากทุกฟิลด์ที่ระบุใน fields
-          fields.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-              formDataObj[id] = el.value;
-            }
-          });
-          // เก็บชื่อและรูปผู้บังคับทั้งหมดในอาร์เรย์ controllers (เป็นอ็อบเจ็กต์ { name, idCardPhoto })
-          const numCtrlSend = parseInt(document.getElementById('numControllers').value);
-          if (!isNaN(numCtrlSend) && numCtrlSend > 0) {
-            formDataObj.controllers = [];
-            for (let i = 1; i <= numCtrlSend; i++) {
-              const nameInput = document.getElementById('NameControl' + i);
-              const idPhotoInput = document.getElementById('IDCardPhoto' + i);
-              const controllerObj = {};
-              if (nameInput) {
-                controllerObj.name = nameInput.value;
-              }
-              if (idPhotoInput && idPhotoInput.files && idPhotoInput.files[0]) {
-                try {
-                  controllerObj.idCardPhoto = await toBase64(idPhotoInput.files[0]);
-                } catch (e) {
-                  console.error('Error converting ID card photo for controller ' + i + ':', e);
-                  controllerObj.idCardPhoto = null;
-                }
-              } else {
-                controllerObj.idCardPhoto = null;
-              }
-              formDataObj.controllers.push(controllerObj);
-            }
-          }
-          // หากมีวันเกิด แปลงปี ค.ศ. เป็น พ.ศ. (บวก 543) ก่อนส่ง
-          if (formDataObj.insbirthdate) {
-            const parts = formDataObj.insbirthdate.split('-');
-            if (parts.length === 3) {
-              const beYear = parseInt(parts[0], 10) + 543;
-              formDataObj.insbirthdate = `${beYear}-${parts[1]}-${parts[2]}`;
-            }
-          }
-          // หากมีไฟล์รูปหมายเลขโดรน ให้แปลงเป็น base64 แล้วเพิ่มในข้อมูลที่จะส่ง
-          if (droneSerialPhotoInput.files && droneSerialPhotoInput.files[0]) {
-            try {
-              formDataObj.droneSerialPhoto = await toBase64(droneSerialPhotoInput.files[0]);
-            } catch (e) {
-              console.error('Error converting drone serial photo:', e);
-            }
-          } else {
-            // ไม่ต้องส่งคีย์ droneSerialPhoto หากไม่ได้เลือกไฟล์
-            delete formDataObj.droneSerialPhoto;
-          }
-
-
-          // ส่งข้อมูลไปยัง webhook URL
-          try {
-            const response = await fetch(webhookURL, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(formDataObj)
-            });
-            if (response.ok) {
-              showNotification('ส่งข้อมูลเรียบร้อยแล้ว', 'success');
-            } else {
-              showNotification('เกิดข้อผิดพลาดในการส่งข้อมูล', 'error');
-            }
-          } catch (error) {
-            console.error('Error sending webhook:', error);
-            showNotification('เกิดข้อผิดพลาดในการส่งข้อมูล', 'error');
-          }
-        }
-      });
-    </script>
-
-<script>
-// แสดง พ.ศ. เฉพาะใน UI
-function setAltToBE(fp){
-  if(!fp.altInput) return;
-  const d = fp.selectedDates[0];
-  if(!d){ fp.altInput.value = ''; return; }
-  const dd = String(d.getDate()).padStart(2,'0');
-  const mm = String(d.getMonth()+1).padStart(2,'0');
-  const be = d.getFullYear() + 543;
-  fp.altInput.value = `${dd}/${mm}/${be}`;
-}
-function setHeaderYearBE(fp){
-  requestAnimationFrame(function(){
-    if(!fp.calendarContainer) return;
-    var yearEl = fp.calendarContainer.querySelector('.flatpickr-current-month input.cur-year');
-    if(!yearEl) return;
-    var ce = parseInt(yearEl.value, 10);
-    if(isNaN(ce)) return;
-    if(ce > 2400) ce -= 543;  // กันการบวก 543 ซ้ำ
-    yearEl.value = ce + 543;  // แสดงเป็น พ.ศ.
-    yearEl.readOnly = true;
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  flatpickr('#insbirthdate', {
-    locale: 'th',
-    altInput: true,
-    dateFormat: 'Y-m-d', // เก็บ/ส่งเป็น ค.ศ.
-    altFormat: 'd/m/Y',
-    allowInput: false,
-    onReady:        function(_, __, fp){ setHeaderYearBE(fp); setAltToBE(fp); },
-    onOpen:         function(_, __, fp){ setHeaderYearBE(fp); },
-    onMonthChange:  function(_, __, fp){ setHeaderYearBE(fp); },
-    onYearChange:   function(_, __, fp){ setHeaderYearBE(fp); },
-    onValueUpdate:  function(_, __, fp){ setHeaderYearBE(fp); setAltToBE(fp); }
-  });
-});
-</script>
-
-
-
-	  <script>
-/* === ปุ่มยกเลิก: รีเซ็ตฟอร์ม & เคลียร์ทุกฟิลด์ === */
-document.getElementById('resetBtn').addEventListener('click', () => {
-  // รีเซ็ต element form มาตรฐาน
-  insuranceForm.reset();
-
-  // ลบชื่อ-ผู้บังคับที่สร้างแบบไดนามิก
-  controllerContainer.innerHTML = '';
-
-  // รีเซ็ต dropdown อำเภอ/ตำบล/แพ็กเกจ
-  amphurSelect.disabled   = true;
-  districtSelect.disabled = true;
-  amphurSelect.innerHTML  = '<option value="">-- เลือกอำเภอ --</option>';
-  districtSelect.innerHTML= '<option value="">-- เลือกตำบล --</option>';
-  zipcodeInput.value      = '';
-
-  planSelect.disabled = true;
-  planSelect.innerHTML = '<option value="">-- เลือกแผนประกันภัย --</option>';
-
-  // เคลียร์ไฟล์ที่อัปโหลด
-  document.querySelectorAll('input[type="file"]').forEach(f => f.value = '');
-
-  // ลบสไตล์ error / ข้อความ error
-  document.querySelectorAll('.error-input').forEach(el => el.classList.remove('error-input'));
-  document.querySelectorAll('.error-message').forEach(el => el.remove());
-
-  // เติมปี Drone ใหม่ (ย้อนหลัง 5 ปี)
-  populateYearOptions();
-
-  // เคลียร์ date-picker
-  if (window.datePickerInstance) window.datePickerInstance.clear();
-});
-</script>
-
-  </body>
+  </script>
+</body>
 </html>
